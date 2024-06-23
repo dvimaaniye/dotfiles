@@ -1,0 +1,22 @@
+import = [
+    "~/.config/alacritty/themes/kanagawa-wave.toml"
+]
+[font]
+size = 8.0
+
+[font.normal]
+family = "MesloLGS Nerd Font"
+style = "Regular"
+
+[font.bold]
+family = "MesloLGS Nerd Font"
+style = "Bold"
+
+[font.bold_italic]
+family = "MesloLGS Nerd Font"
+style = "Bold Italic"
+
+[font.italic]
+family = "MesloLGS Nerd Font"
+style = "Italic"
+

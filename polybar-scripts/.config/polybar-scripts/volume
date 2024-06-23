@@ -1,0 +1,11 @@
+read volume_percent is_sink_muted is_source_muted <<< $(pulseaudio-ctl full-status)
+# echo VOL $volume_percent% $is_sink_muted $is_source_muted
+if [[ $is_sink_muted == "no" ]] ; then
+	echo VOL $volume_percent%
+else
+	echo 󰝟 muted
+fi
+
+#if [[ $is_source_muted == "yes" ]] ; then
+#	echo " " +  󰍭
+#fi

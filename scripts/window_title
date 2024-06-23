@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+xdotool getactivewindow getwindowname | cut -d ':' -f2-

@@ -1,0 +1,1 @@
+echo $(bc <<< "$(brightnessctl -d intel_backlight get) * 100 / $(brightnessctl -d intel_backlight max)")%
