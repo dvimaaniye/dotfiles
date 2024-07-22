@@ -1,6 +1,17 @@
 import = [
-    "~/.config/alacritty/themes/kanagawa-wave.toml"
+    "~/.config/alacritty/themes/github-dark.toml"
 ]
+
+[colors.primary]
+background = "0x181616"
+foreground = "0xC5C9C5"
+
+[window]
+opacity = 0.8
+
+[colors]
+transparent_background_colors = true
+
 [font]
 size = 8.0
 

@@ -155,7 +155,7 @@ bindsym $mod+Shift+c reload
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
 bindsym $mod+Shift+r restart
 
-mode "(l)ock, log (o)ut, (s)uspend, (p)oweroff, (r)eboot" {
+mode "[l]ock, log [o]ut, [s]uspend, [p]oweroff, [r]eboot" {
         # for lock
         bindsym l exec i3lock, mode "default"
 
@@ -176,7 +176,7 @@ mode "(l)ock, log (o)ut, (s)uspend, (p)oweroff, (r)eboot" {
         bindsym $mod+Shift+x mode "default"
 }
 # exit i3 (logs you out of your X session)
-bindsym $mod+Shift+x mode "(l)ock, log (o)ut, (s)uspend, (p)oweroff, (r)eboot"
+bindsym $mod+Shift+x mode "[l]ock, log [o]ut, [s]uspend, [p]oweroff, [r]eboot"
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -210,6 +210,11 @@ bindsym $mod+r mode "resize"
 exec_always --no-startup-id $HOME/.config/polybar/launch
 exec_always --no-startup-id feh --bg-fill $HOME/wallpapers/current
 exec_always --no-startup-id picom --config $HOME/.config/picom/picom.conf &
+
+exec --no-startup-id alacritty
+exec --no-startup-id brave --profile-directory="Profile 1"
+exec --no-startup-id brave --profile-directory="Profile 2"
+exec --no-startup-id dunst
 # ********** end custom initializations  ********** #
 
 # ********** custom keybindings  ********** #
@@ -218,14 +223,19 @@ bindsym XF86MonBrightnessDown exec --no-startup-id brightnessctl set 5%- && $ref
 # ********** end custom keybindings  ********** #
 
 # ********** customizations ********** #
+for_window [class="Brave-browser" title="dev - Brave" window_role="browser"] $ws2
+for_window [class="Brave-browser" title="personal - Brave" window_role="browser"] $ws3
+
+for_window [window_role="pop-up"] floating enable
+
 default_border pixel 2
 default_floating_border pixel 2
 #hide_edge_borders smart
 
-workspace_auto_back_and_forth yes
+#workspace_auto_back_and_forth yes
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #4c7899 #285577 #ffffff #2e9ec3   #285577
+client.focused          #067a16 #285577 #ffffff #04490d   #067a16
 client.focused_inactive #333333 #5f676a #ffffff #333343   #333343
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
