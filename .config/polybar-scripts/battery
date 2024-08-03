@@ -28,6 +28,7 @@ if [[ $status == "Discharging" ]]; then
     fi
 else
     output="%{F#8fc}PLG%{F-} $output"
+    dunstctl close
 fi
 
 echo $output

@@ -1,9 +1,14 @@
 #!/bin/sh
 
+wallpaper_dir="$HOME/wallpapers"
 if [ ! -f $1 ]; then
     echo "$1 not found!"
 else
-    rm -r $HOME/wallpapers/current/*
-    cp $1 $HOME/wallpapers/current/
+    file_path_and_name=$(echo $1 | sed -E 's/(.*)\/(.*)$/\1\n\2/')
+    read -r file_path file_name <<< $file_path_and_name
+    if [[ $file_path != $wallpaper_dir ]]; then
+        cp $1 $wallpaper_dir
+    fi
+    ln -s $1 "$wallpaper_dir/current/$file_name" 
 fi
 
