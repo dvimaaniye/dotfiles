@@ -1,0 +1,47 @@
+#!/bin/bash
+
+output="%{F#db8}wifi%{F-}"
+
+wifi_status=$(nmcli radio wifi)
+if [[ $wifi_status == "disabled" ]]; then
+    output="$output %{F#aaa}off%{F-}"
+    echo $output
+    exit 0
+fi
+
+# Interface to monitor
+INTERFACE="wlan0"
+
+name=$(nmcli -t -f GENERAL.CONNECTION dev show wlan0 | sed -E "s/.*:(.*)/\1/")
+ip=$(nmcli -t -f IP4.ADDRESS dev show wlan0 | sed -n "1p" | sed -E "s/.*:(.*)/\1/")
+
+if [[ -z $name ]]; then
+    output="$output %{F#aaa}disconnected%{F-}"
+    echo $output
+    exit 0
+fi
+
+# Function to get byte count
+get_bytes() {
+    ip -s link show $INTERFACE | awk '/'"$1"'/ {getline; print $1}'
+}
+
+# Initial byte counts
+RX1=$(get_bytes "RX:")
+#TX1=$(get_bytes "TX:")
+
+# Wait for 1 second
+sleep 1
+
+# Second byte counts
+RX2=$(get_bytes "RX:")
+#TX2=$(get_bytes "TX:")
+
+# Calculate speeds in KB/s
+RX_SPEED=$(( ($RX2 - $RX1) / 1024 ))
+#TX_SPEED=$(( ($TX2 - $TX1) / 1024 ))
+
+output="%{F#db8}$name%{F-}"
+output="$output $RX_SPEED KB/s %{F#ddd}($ip)%{F-}"
+
+echo $output

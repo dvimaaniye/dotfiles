@@ -1,0 +1,23 @@
+#!/bin/bash
+
+# Function to check Wi-Fi status
+check_wifi_status() {
+    nmcli radio wifi
+}
+
+# Toggle Wi-Fi
+toggle_wifi() {
+    current_status=$(check_wifi_status)
+    
+    if [ "$current_status" == "enabled" ]; then
+        nmcli radio wifi off
+    elif [ "$current_status" == "disabled" ]; then
+        nmcli radio wifi on
+    else
+        echo "Unknown Wi-Fi status: $current_status"
+    fi
+}
+
+# Call toggle_wifi function
+toggle_wifi
+

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+power_state=$(bluetoothctl show | grep "Powered" | sed -E 's/.*: (.*)/\1/')
+
+if [[ $power_state == "yes" ]]; then
+    bluetoothctl power off
+else
+    bluetoothctl power on
+fi

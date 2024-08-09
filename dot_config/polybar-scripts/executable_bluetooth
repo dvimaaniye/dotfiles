@@ -1,0 +1,40 @@
+#!/usr/bin/bash
+output="%{F#98f}BT%{F-} "
+
+power=$(bluetoothctl show | grep "Powered" | sed -E 's/.*: (.*)/\1/')
+
+if [[ $power == "no" ]]; then
+    output="$output %{F#aaa}off%{F-}"
+    echo $output
+    exit 0
+fi
+
+devices=$(bluetoothctl devices | awk '{print $2}')
+devices_info=""
+
+for deviceMAC in $devices; do
+    info=$(bluetoothctl info $deviceMAC)
+    if echo "$info" | grep -q "Connected: yes"; then
+        name=$(echo "$info" | grep "Name" | sed -E 's/.*: (.*)/\1/')
+        device_info="$name"
+
+        if echo "$info" | grep -q "Battery"; then
+            battery=$(echo "$info" | grep "Battery" | sed -E 's/.*\(([0-9]+)\).*/\1/')
+            device_info="$device_info $battery%"
+        fi
+
+        if [[ -n $devices_info ]]; then
+            devices_info="$devices_info, $device_info"
+        else
+            devices_info="$device_info"
+        fi
+    fi
+done
+
+if [[ $devices_info ]]; then
+    output="$output $devices_info"
+else
+    output="$output %{F#888}disconnected%{F-}"
+fi
+
+echo $output
