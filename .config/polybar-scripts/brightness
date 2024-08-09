@@ -1,3 +1,0 @@
-#!/usr/bin/bash
-brightness=$(bc <<< "$(brightnessctl -d intel_backlight get) * 100 / $(brightnessctl -d intel_backlight max)")
-echo "%{F#f96}BL%{F-} $brightness%"
