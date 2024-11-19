@@ -179,6 +179,25 @@ require("lazy").setup({
 	},
 
 	{
+		"stevearc/oil.nvim",
+		opts = {
+			default_file_explorer = true,
+		},
+		dependencies = { { "echasnovski/mini.icons", opts = {} } },
+		-- dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = function()
+			require("oil").setup({
+				vim.keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" }),
+				view_options = {
+					show_hidden = true,
+				},
+			})
+			vim.g.loaded_netrw = 1
+			vim.g.loaded_netrwPlugin = 1
+		end,
+	},
+
+	{
 		"nvim-telescope/telescope.nvim",
 		event = "VimEnter",
 		branch = "0.1.x",
