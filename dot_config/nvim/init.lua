@@ -379,8 +379,6 @@ require("lazy").setup({
 			local servers = {
 				clangd = {},
 				pyright = {},
-				phpactor = {},
-				vuels = {},
 				tailwindcss = {},
 				svelte = {},
 				html = {},
@@ -656,9 +654,9 @@ require("lazy").setup({
 				"vim",
 				"vimdoc",
 				"php",
-				"vue",
 				"typescript",
 				"javascript",
+				"blade",
 			},
 			-- Autoinstall languages that are not installed
 			auto_install = true,
@@ -675,6 +673,22 @@ require("lazy").setup({
 			-- [[ Configure Treesitter ]] See `:help nvim-treesitter`
 
 			require("nvim-treesitter.install").prefer_git = true
+
+			local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+			parser_config.blade = {
+				install_info = {
+					url = "https://github.com/EmranMR/tree-sitter-blade",
+					files = { "src/parser.c" },
+					branch = "main",
+				},
+				filetype = "blade",
+			}
+
+			vim.filetype.add({
+				pattern = {
+					[".*%.blade%.php"] = "blade",
+				},
+			})
 
 			require("nvim-treesitter.configs").setup(opts)
 
