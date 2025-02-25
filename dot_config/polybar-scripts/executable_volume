@@ -1,11 +1,21 @@
 #!/usr/bin/bash
-read volume_percent is_sink_muted is_source_muted <<< $(pulseaudio-ctl full-status)
-# echo VOL $volume_percent% $is_sink_muted $is_source_muted
-if [[ $is_sink_muted == "no" ]] ; then
-	echo "%{F#f8d}VOL%{F-} $volume_percent%"
+
+volume_status=$(wpctl get-volume @DEFAULT_SINK@ | sed 's/Volume: //')
+volume=$(echo $volume_status | awk '{print $1}')
+volume=$(echo "$volume*100" | bc)
+volume=$(printf "%0.f" $volume)
+muted=$(echo $volume_status | awk '{print $2}')
+
+if [[ $muted == "[MUTED]" ]]; then
+	echo "%{F#f8d}VOL%{F-} %{F#aaa}$volume% muted%{F-}"
 else
-	echo "%{F#f8d}VOL%{F-} %{F#aaa}muted%{F-}"
+	echo "%{F#f8d}VOL%{F-} $volume%"
 fi
+# if [[ $is_sink_muted == "no" ]] ; then
+# 	echo "%{F#f8d}VOL%{F-} $volume_percent%"
+# else
+# 	echo "%{F#f8d}VOL%{F-} %{F#aaa}muted%{F-}"
+# fi
 
 #if [[ $is_source_muted == "yes" ]] ; then
 #	echo " " +  󰍭

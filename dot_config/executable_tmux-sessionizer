@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+switch_to() {
+    if [[ -z $TMUX ]]; then
+        tmux attach-session -t $1
+    else
+        tmux switch-client -t $1
+    fi
+}
+
+projects_dir="$HOME/projects"
+
+selected_project_dir=$(find $projects_dir -mindepth 2 -maxdepth 2 -type d | fzf)
+
+selected_project_name=$(basename "$selected_project_dir" | tr . -)
+
+if [[ -z $selected_project_name ]]; then
+    exit 0
+fi
+
+tmux_running=$(pgrep tmux)
+
+if ! tmux has-session -t=$selected_project_name 2> /dev/null; then
+    tmux new-session -ds $selected_project_name -c $selected_project_dir
+fi
+
+switch_to $selected_project_name

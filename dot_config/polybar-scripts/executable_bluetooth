@@ -16,10 +16,10 @@ for deviceMAC in $devices; do
     info=$(bluetoothctl info $deviceMAC)
     if echo "$info" | grep -q "Connected: yes"; then
         name=$(echo "$info" | grep "Name" | sed -E 's/.*: (.*)/\1/')
-        device_info="$name"
+        device_info="%{F#98f}$name%{F-}"
 
         if echo "$info" | grep -q "Battery"; then
-            battery=$(echo "$info" | grep "Battery" | sed -E 's/.*\(([0-9]+)\).*/\1/')
+            battery=$(echo "$info" | grep "Battery Percentage" | sed -E 's/.*\(([0-9]+)\).*/\1/')
             device_info="$device_info $battery%"
         fi
 
@@ -32,7 +32,7 @@ for deviceMAC in $devices; do
 done
 
 if [[ $devices_info ]]; then
-    output="$output $devices_info"
+    output="$devices_info"
 else
     output="$output %{F#888}disconnected%{F-}"
 fi

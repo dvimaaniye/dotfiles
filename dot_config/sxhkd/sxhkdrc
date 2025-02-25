@@ -1,0 +1,59 @@
+#super + {_,shift +} {1-9}
+#    i3-msg {workspace,move container to workspace} {1-9}
+
+#super + {_,shift + } {h,j,k,l}
+#	i3-msg {focus,move} {left,down,up,right}
+
+#super + q
+#	i3-msg kill
+
+#super + Return
+#	kitty
+
+#super + shift + {c,r}
+#	i3-msg {reload,restart}
+
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	brightnessctl set {+2%,1%-}
+
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	wpctl set-volume -l 1.2 @DEFAULT_SINK@ {0.02+,0.02-}
+
+{XF86AudioMute,XF86AudioMicMute}
+	wpctl set-mute @DEFAULT_SINK@ toggle 
+
+XF86AudioPlay
+	playerctl play
+
+XF86AudioPause
+	playerctl pause
+
+Print
+	flameshot gui
+
+super + c
+	xcolor -s
+
+super + {underscore,bar}
+	i3-msg split {v,h}
+
+super + f
+	i3-msg fullscreen toggle
+
+super + {s,w,e}
+	i3-msg layout {stacking,tabbed,toggle split}
+
+super + shift + space
+	i3-msg floating toggle
+
+super + comma
+	i3-msg focus mode_toggle
+
+super + a
+	i3-msg focus parent
+
+super + o ; b
+	librewolf --private-window
+
+F11
+	playerctl play-pause
