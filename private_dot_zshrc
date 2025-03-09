@@ -133,7 +133,6 @@ unset key
 
 bindkey -s "^f" "tmux-sessionizer\n"
 
-eval "$(tmuxifier init -)"
 
 alias t="tmux"
 alias ts="tmuxifier"
@@ -142,13 +141,14 @@ export EDITOR='nvim'
 
 export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
 
+eval "$(tmuxifier init -)"
+
 export PATH="/home/gautam/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/home/gautam/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-. "/home/gautam/.deno/env"
 
 export JAVA_HOME='/usr/lib/jvm/java-23-openjdk'
 
