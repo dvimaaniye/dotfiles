@@ -2,7 +2,9 @@ set $mod Mod4
 floating_modifier $mod
 tiling_drag modifier titlebar
 
-font pango:MesloLGS NerdFont 12
+set $font pango:Hack Nerd Font Mono
+
+font $font 12
 
 set $terminal kitty
 set $ws1 "1"
@@ -27,7 +29,7 @@ bar {
 
 	bindsym button4 nop
 	bindsym button5 nop
-   font pango:MesloLGS NerdFont 8
+   font $font 8
 	strip_workspace_numbers yes
 
     colors {
