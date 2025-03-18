@@ -15,11 +15,28 @@ return {
 			},
 		},
 		config = function()
+			local servers = {
+				'lua_ls',
+				'intelephense',
+				'pyright',
+				'ts_ls',
+				'tailwindcss',
+				'svelte',
+				'templ',
+				'bashls',
+				'eslint',
+			}
+
 			local lsp = require("lspconfig")
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
-			lsp.lua_ls.setup({ capabilities = capabilities })
-			lsp.intelephense.setup({ capabilities = capabilities })
-			lsp.pyright.setup({ capabilities = capabilities })
+
+			for _, server in ipairs(servers) do
+				lsp[server].setup({ capabilities = capabilities })
+			end
+
+			-- lsp.lua_ls.setup({ capabilities = capabilities })
+			-- lsp.intelephense.setup({ capabilities = capabilities })
+			-- lsp.pyright.setup({ capabilities = capabilities })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
@@ -28,14 +45,14 @@ return {
 						return
 					end
 
-					if client.supports_method("textDocument/formatting") then
-						vim.api.nvim_create_autocmd("BufWritePre", {
-							buffer = args.buf,
-							callback = function()
-								vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-							end,
-						})
-					end
+					-- if client.supports_method("textDocument/formatting") then
+					-- 	vim.api.nvim_create_autocmd("BufWritePre", {
+					-- 		buffer = args.buf,
+					-- 		callback = function()
+					-- 			vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
+					-- 		end,
+					-- 	})
+					-- end
 
 					local map = function(keys, func, desc)
 						vim.keymap.set("n", keys, func, { buffer = args.buf, desc = "LSP: " .. desc })
