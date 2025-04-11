@@ -18,36 +18,36 @@ set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
 
-bar {
-	i3bar_command i3bar
-	status_command i3status
-	position bottom
-
-## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
-#	tray_output primary
-#	tray_output eDP1
-
-	bindsym button4 nop
-	bindsym button5 nop
-   font $font 8
-	strip_workspace_numbers yes
-
-    colors {
-        background #222D31
-        statusline #F9FAF9
-        separator  #454947
-
-#                      border  backgr. text
-        focused_workspace  #F9FAF9 #16a085 #292F34
-        active_workspace   #595B5B #353836 #FDF6E3
-        inactive_workspace #595B5B #222D31 #EEE8D5
-        binding_mode       #16a085 #2C2C2C #F9FAF9
-        urgent_workspace   #16a085 #FDF6E3 #E5201D
-    }
-}
+# bar {
+# 	i3bar_command i3bar
+# 	status_command i3status
+# 	position bottom
+#
+# ## please set your primary output first. Example: 'xrandr --output eDP1 --primary'
+# #	tray_output primary
+# #	tray_output eDP1
+#
+# 	bindsym button4 nop
+# 	bindsym button5 nop
+#    font $font 8
+# 	strip_workspace_numbers yes
+#
+#     colors {
+#         background #222D31
+#         statusline #F9FAF9
+#         separator  #454947
+#
+# #                      border  backgr. text
+#         focused_workspace  #F9FAF9 #16a085 #292F34
+#         active_workspace   #595B5B #353836 #FDF6E3
+#         inactive_workspace #595B5B #222D31 #EEE8D5
+#         binding_mode       #16a085 #2C2C2C #F9FAF9
+#         urgent_workspace   #16a085 #FDF6E3 #E5201D
+#     }
+# }
 
 # hide/unhide i3status bar
-bindsym $mod+m bar mode toggle
+# bindsym $mod+m bar mode toggle
 
 set $mode_system (l)ock, (e)xit, switch_(u)ser, (s)uspend, (h)ibernate, (r)eboot, (Shift+s)hutdown
 mode "$mode_system" {
@@ -181,6 +181,9 @@ for_window [class="Xfburn"] floating enable
 
 for_window [urgent=latest] focus
 
+for_window [class="(?i)LibreWolf" title="(?i)LibreWolf Private Browsing$"] move container to workspace $ws8
+for_window [class="(?i)LibreWolf" title="(?i)LibreWolf$"] move container to workspace $ws9
+
 default_border pixel 1
 default_floating_border pixel 1
 hide_edge_borders smart
@@ -202,7 +205,6 @@ exec --no-startup-id volumeicon
 bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
 
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id nitrogen --restore; 
 exec --no-startup-id picom -b --config $HOME/.config/picom/picom.conf
 exec --no-startup-id nm-applet
 exec --no-startup-id xfce4-power-manager
@@ -210,19 +212,17 @@ exec --no-startup-id pamac-tray
 exec --no-startup-id clipit
 exec --no-startup-id sxhkd -c $HOME/.config/sxhkd/sxhkdrc
 
-exec --no-startup-id xautolock -time 10 -locker blurlock
+# exec --no-startup-id xautolock -time 10 -locker blurlock
 
 exec_always --no-startup-id ff-theme-util
 exec_always --no-startup-id fix_xcursor
-# exec_always --no-startup-id $HOME/.config/polybar/launch
-# exec_always --no-startup-id feh --bg-fill -z $HOME/wallpapers/current/ &
+exec_always --no-startup-id $HOME/.config/polybar/launch
+exec_always --no-startup-id feh --bg-fill -z $HOME/wallpapers/current/ &
 exec_always --no-startup-id flameshot &
 
 # exec --no-startup-id dunst
-exec --no-startup-id i3-msg "workspace $ws1; exec $terminal;"
-exec --no-startup-id i3-msg "workspace $ws7; exec spotube;"
-exec --no-startup-id i3-msg "workspace $ws8; exec librewolf --private-window;"
-exec --no-startup-id i3-msg "workspace $ws9; exec librewolf;"
-exec --no-startup-id i3-msg "workspace $ws10; exec $terminal 'htop';"
-# exec --no-startup-id i3-msg "workspace $ws10; exec $terminal 'htop'; split v; exec $terminal 'nmtui-connect'; split h; exec $terminal 'bluetui';"
-exec --no-startup-id i3-msg "workspace $ws1;"
+# exec i3-msg "exec $terminal; move scratchpad;"
+exec i3-msg "workspace $ws1; exec $terminal;"
+exec --no-startup-id i3-msg "exec librewolf --private-window; exec librewolf;"
+exec i3-msg "workspace $ws10; append_layout ~/.config/i3/layouts/workspace-10.json; exec $terminal 'htop'; exec $terminal 'nmtui-connect'; exec $terminal 'bluetui';"
+exec i3-msg "workspace $ws1;"

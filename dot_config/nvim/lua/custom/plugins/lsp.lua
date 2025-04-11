@@ -16,15 +16,16 @@ return {
 		},
 		config = function()
 			local servers = {
-				'lua_ls',
-				'intelephense',
-				'pyright',
-				'ts_ls',
-				'tailwindcss',
-				'svelte',
-				'templ',
-				'bashls',
-				'eslint',
+				"lua_ls",
+				"intelephense",
+				"pyright",
+				"ts_ls",
+				"tailwindcss",
+				"svelte",
+				"templ",
+				"bashls",
+				"eslint",
+				"prismals",
 			}
 
 			local lsp = require("lspconfig")
@@ -37,6 +38,8 @@ return {
 			-- lsp.lua_ls.setup({ capabilities = capabilities })
 			-- lsp.intelephense.setup({ capabilities = capabilities })
 			-- lsp.pyright.setup({ capabilities = capabilities })
+
+			vim.keymap.set("n", "<leader>lr", ":LspRestart<cr>", { desc = "Lsp Restart" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)

@@ -22,6 +22,20 @@ return {
 						preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
 					},
 				},
+				pickers = {
+					find_files = {
+						find_command = {
+							"rg",
+							"--no-ignore",
+							"--hidden",
+							"--files",
+							"-g",
+							"!**/node_modules/*",
+							"-g",
+							"!**/.git/*",
+						},
+					},
+				},
 				extensions = {
 					fzf = {},
 				},
@@ -29,14 +43,36 @@ return {
 
 			require("telescope").load_extension("fzf")
 
-			vim.keymap.set("n", "<space>fd", require("telescope.builtin").find_files)
-			vim.keymap.set("n", "<space>fh", require("telescope.builtin").help_tags)
-			vim.keymap.set("n", "<space>en", function()
-				require("telescope.builtin").find_files({
-					cwd = vim.fn.stdpath("config"),
+			local builtin = require("telescope.builtin")
+
+			vim.keymap.set("n", "<space>fh", builtin.help_tags, { desc = "[F]ind [H]elp" })
+			vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "[F]ind [K]eymaps" })
+
+			vim.keymap.set("n", "<space>ff", builtin.find_files, { desc = "[F]ind [F]iles" })
+			vim.keymap.set("n", "<space>ft", builtin.git_files, { desc = "[F]ind gi[T] files" })
+			vim.keymap.set("n", "<leader>fw", builtin.grep_string, { desc = "[F]ind current [W]ord" })
+			vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[F]ind by [G]rep" })
+			vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "[F]ind [D]iagnostics" })
+			vim.keymap.set("n", "<leader>fr", builtin.resume, { desc = "[F]ind [R]esume" })
+			vim.keymap.set("n", "<leader>f.", builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+			vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "[F]ind existing [b]uffers" })
+
+			vim.keymap.set("n", "<leader>/", function()
+				builtin.current_buffer_fuzzy_find()
+			end, { desc = "[/] Fuzzily search in current buffer" })
+
+			vim.keymap.set("n", "<leader>f/", function()
+				builtin.live_grep({
+					grep_open_files = true,
+					prompt_title = "Live Grep in Open Files",
 				})
-			end)
-			require("custom.telescope.multigrep").setup()
+			end, { desc = "[F]ind [/] in Open Files" })
+
+			vim.keymap.set("n", "<leader>fn", function()
+				builtin.find_files({ cwd = vim.fn.stdpath("config") })
+			end, { desc = "[F]ind [N]eovim files" })
+
+			require("custom.telescope.multigrep").setup({ keymap = "<leader>fm" })
 		end,
 	},
 }

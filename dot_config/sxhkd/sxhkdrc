@@ -14,7 +14,7 @@
 #	i3-msg {reload,restart}
 
 {XF86MonBrightnessUp,XF86MonBrightnessDown}
-	brightnessctl set {+2%,1%-}
+	brightnessctl set {+2%,2%-}
 
 {XF86AudioRaiseVolume,XF86AudioLowerVolume}
 	wpctl set-volume -l 1.2 @DEFAULT_SINK@ {0.02+,0.02-}
@@ -29,12 +29,12 @@ XF86AudioPause
 	playerctl pause
 
 Print
-	flameshot gui
+	flameshot gui --last-region
 
 super + c
 	xcolor -s
 
-super + {underscore,bar}
+super + {equal,bar}
 	i3-msg split {v,h}
 
 super + f
@@ -43,7 +43,7 @@ super + f
 super + {s,w,e}
 	i3-msg layout {stacking,tabbed,toggle split}
 
-super + shift + space
+super + shift + comma
 	i3-msg floating toggle
 
 super + comma
@@ -51,9 +51,6 @@ super + comma
 
 super + a
 	i3-msg focus parent
-
-super + o ; b
-	librewolf --private-window
 
 F11
 	playerctl play-pause

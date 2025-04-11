@@ -1,26 +1,22 @@
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey -e
 
-fpath=(~/.zsh/zsh-completions/src $fpath)
+HISTFILE="~/.zsh_history"
+HISTSIZE=10000
+SAVEHIST=10000
+setopt INC_APPEND_HISTORY_TIME
 
+export EDITOR="nvim"
 
 eval "$(starship init zsh)"
-bindkey -e
 
 bindkey -s "^f" "tmux-sessionizer\n"
 
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-alias t="tmux"
+export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
+eval "$(tmuxifier init -)"
 alias ts="tmuxifier"
 
-export EDITOR='nvim'
-
-export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
-
-eval "$(tmuxifier init -)"
+alias vi="vim"
+alias vim="nvim"
 
 export PATH="/home/gautam/.config/herd-lite/bin:$PATH"
 export PHP_INI_SCAN_DIR="/home/gautam/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
@@ -31,7 +27,6 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 
 export JAVA_HOME='/usr/lib/jvm/java-23-openjdk'
 
-
 # pnpm
 export PNPM_HOME="/home/gautam/.local/share/pnpm"
 case ":$PATH:" in
@@ -39,3 +34,17 @@ case ":$PATH:" in
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
+
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+fpath=(~/.zsh/zsh-completions/src $fpath)
+bindkey '^y' autosuggest-accept
+bindkey '^ ' autosuggest-toggle
+
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
+

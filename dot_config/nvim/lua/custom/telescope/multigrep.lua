@@ -46,8 +46,8 @@ local live_multigrep = function(opts)
 		:find()
 end
 
-M.setup = function()
-	vim.keymap.set("n", "<space>fg", live_multigrep)
+M.setup = function(opts)
+	vim.keymap.set("n", opts.keymap, live_multigrep, { desc = "Multi grep search" })
 end
 
 return M
