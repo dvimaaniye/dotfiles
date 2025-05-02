@@ -34,6 +34,9 @@ Print
 super + c
 	xcolor -s
 
+super + space
+	rofi -show drun
+
 super + {equal,bar}
 	i3-msg split {v,h}
 

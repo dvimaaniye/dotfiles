@@ -82,7 +82,7 @@ bindsym $mod+r mode "resize"
 # ********** custom keybindings  ********** #
 # find sxhkdrc
 # bindsym $mod+space exec rofi -drun-use-desktop-cache -show drun
-bindsym $mod+space exec rofi -show drun
+# bindsym $mod+space exec rofi -show drun
 bindsym $mod+Return exec $terminal
 
 bindsym $mod+q kill
@@ -181,8 +181,12 @@ for_window [class="Xfburn"] floating enable
 
 for_window [urgent=latest] focus
 
-for_window [class="(?i)LibreWolf" title="(?i)LibreWolf Private Browsing$"] move container to workspace $ws8
-for_window [class="(?i)LibreWolf" title="(?i)LibreWolf$"] move container to workspace $ws9
+# for_window [class="(?i)LibreWolf" title="(?i)LibreWolf Private Browsing$"] move container to workspace $ws8
+# for_window [class="(?i)LibreWolf" title="(?i)LibreWolf$"] move container to workspace $ws9
+
+for_window [class="(?i)Zen" title="(?i)Zen Browser Private Browsing$"] move container to workspace $ws8
+for_window [class="(?i)Zen" title="(?i)Zen Browser$"] move container to workspace $ws9
+
 
 default_border pixel 1
 default_floating_border pixel 1
@@ -201,28 +205,30 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 #gaps inner 5
 #gaps top -5
 
-exec --no-startup-id volumeicon
-bindsym $mod+Ctrl+m exec terminal -e 'alsamixer'
+# exec --no-startup-id volumeicon
+bindsym $mod+Ctrl+m exec $terminal -e 'alsamixer'
 
-exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id picom -b --config $HOME/.config/picom/picom.conf
-exec --no-startup-id nm-applet
-exec --no-startup-id xfce4-power-manager
-exec --no-startup-id pamac-tray
-exec --no-startup-id clipit
-exec --no-startup-id sxhkd -c $HOME/.config/sxhkd/sxhkdrc
+# exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+# exec --no-startup-id picom -b --config $HOME/.config/picom/picom.conf
+# exec --no-startup-id nm-applet
+# exec --no-startup-id xfce4-power-manager
+# exec --no-startup-id pamac-tray
+# exec --no-startup-id clipit
+# exec --no-startup-id sxhkd -c $HOME/.config/sxhkd/sxhkdrc
+# exec --no-startup-id flameshot &
 
 # exec --no-startup-id xautolock -time 10 -locker blurlock
 
-exec_always --no-startup-id ff-theme-util
-exec_always --no-startup-id fix_xcursor
-exec_always --no-startup-id $HOME/.config/polybar/launch
-exec_always --no-startup-id feh --bg-fill -z $HOME/wallpapers/current/ &
-exec_always --no-startup-id flameshot &
+# exec_always --no-startup-id fix_xcursor
+# exec_always --no-startup-id $HOME/.config/polybar/launch
+# exec_always --no-startup-id feh --bg-fill -z $HOME/wallpapers/current/ &
+
+exec_always --no-startup-id $HOME/.config/startup-apps.sh &
 
 # exec --no-startup-id dunst
 # exec i3-msg "exec $terminal; move scratchpad;"
+exec --no-startup-id i3-msg "exec zen-browser --private-window; exec zen-browser;"
+
 exec i3-msg "workspace $ws1; exec $terminal;"
-exec --no-startup-id i3-msg "exec librewolf --private-window; exec librewolf;"
-exec i3-msg "workspace $ws10; append_layout ~/.config/i3/layouts/workspace-10.json; exec $terminal 'htop'; exec $terminal 'nmtui-connect'; exec $terminal 'bluetui';"
+# exec i3-msg "workspace $ws10; append_layout ~/.config/i3/layouts/workspace-10.json; exec $terminal 'htop'; exec $terminal 'nmtui-connect'; exec $terminal 'bluetui';"
 exec i3-msg "workspace $ws1;"

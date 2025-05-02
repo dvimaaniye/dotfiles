@@ -1,9 +1,9 @@
 bindkey -e
 
-HISTFILE="~/.zsh_history"
+HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
-setopt INC_APPEND_HISTORY_TIME
+setopt SHARE_HISTORY
 
 export EDITOR="nvim"
 
@@ -35,16 +35,41 @@ case ":$PATH:" in
 esac
 # pnpm end
 
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-fpath=(~/.zsh/zsh-completions/src $fpath)
-bindkey '^y' autosuggest-accept
-bindkey '^ ' autosuggest-toggle
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+
+eval "$(zoxide init --cmd cd zsh)"
+
+alias ls='eza'
+alias ll='ls -l --icons'
+alias llg='ls -l --icons --grid'
+alias la='ls -a'
+alias lla='ls -al --icons'
+alias llag='ls -al --icons --grid'
+
+alias cat='bat'
 
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
+HISTORY_SUBSTRING_SEARCH_FUZZY=1
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+fpath=(~/.zsh/zsh-completions/src $fpath)
+bindkey '^y' autosuggest-accept
+bindkey '^ ' autosuggest-toggle
+
+autoload -Uz compinit
+compinit
