@@ -1,7 +1,9 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 volume_status=$(wpctl get-volume @DEFAULT_SINK@ | sed 's/Volume: //')
-if [[ !$volume_status ]]; then
+
+if [ $? -ne 0 ]; then
+	echo "VOL N/A"
 	exit
 fi
 
@@ -9,6 +11,7 @@ volume=$(echo $volume_status | awk '{print $1}')
 volume=$(echo "$volume*100" | bc)
 volume=$(printf "%0.f" $volume)
 muted=$(echo $volume_status | awk '{print $2}')
+
 
 if [[ $muted == "[MUTED]" ]]; then
 	echo "%{F#f8d}VOL%{F-} %{F#aaa}$volume% muted%{F-}"
