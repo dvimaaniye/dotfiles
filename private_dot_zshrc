@@ -44,6 +44,7 @@ function y() {
 	rm -f -- "$tmp"
 }
 
+# export MANPAGER='less -R --use-color -Dd+r -Du+b'
 
 eval "$(zoxide init --cmd cd zsh)"
 
@@ -55,6 +56,8 @@ alias lla='ls -al --icons'
 alias llag='ls -al --icons --grid'
 
 alias cat='bat'
+
+# source ~/.zsh/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 

@@ -16,6 +16,8 @@ return {
 		},
 		config = function()
 			local servers = {
+				"cmake",
+				"clangd",
 				"lua_ls",
 				"intelephense",
 				"pyright",

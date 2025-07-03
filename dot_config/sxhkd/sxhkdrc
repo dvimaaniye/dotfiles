@@ -14,7 +14,7 @@
 #	i3-msg {reload,restart}
 
 {XF86MonBrightnessUp,XF86MonBrightnessDown}
-	brightnessctl set {+2%,2%-}
+	brightnessctl set {+2%,1%-}
 
 {XF86AudioRaiseVolume,XF86AudioLowerVolume}
 	wpctl set-volume -l 1.2 @DEFAULT_SINK@ {0.02+,0.02-}
@@ -37,8 +37,8 @@ super + c
 super + space
 	rofi -show drun
 
-super + {equal,bar}
-	i3-msg split {v,h}
+super + bar
+	i3-msg split toggle
 
 super + f
 	i3-msg fullscreen toggle
