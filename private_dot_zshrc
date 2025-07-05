@@ -4,16 +4,19 @@ HISTFILE="$HOME/.zsh_history"
 HISTSIZE=10000
 SAVEHIST=10000
 setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
 
 export EDITOR="nvim"
 
 eval "$(starship init zsh)"
 
 bindkey -s "^f" "tmux-sessionizer\n"
+bindkey -s "^v" "nvim .\n"
+
+alias editconfig="tmux-sessionizer ~/.config"
 
 export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
 eval "$(tmuxifier init -)"
-alias ts="tmuxifier"
 
 alias vi="vim"
 alias vim="nvim"
