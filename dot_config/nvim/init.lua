@@ -6,13 +6,14 @@ global.mapleader = " "
 global.maplocalleader = "\\"
 
 global.have_nerd_font = true
-
 opt.termguicolors = true
 
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.number = true
 opt.relativenumber = true
+
+opt.showmode = false
 
 opt.clipboard = "unnamedplus"
 
@@ -34,6 +35,13 @@ opt.foldlevel = 20
 opt.foldmethod = "expr"
 opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldcolumn = "1"
+
+opt.undofile = true
+opt.undodir = vim.fn.expand("~/.local/share/nvim/undo")
+
+opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal,localoptions"
+
+-- opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 
 setKey("n", "<leader><leader>x", "<cmd>source %<CR>")
 setKey("n", "<leader>x", "<cmd>.lua<CR>")
@@ -62,6 +70,23 @@ setKey("n", "<C-u>", "<C-u>zz")
 -- center viewport after n and N
 setKey("n", "n", "nzzzv")
 setKey("n", "N", "Nzzzv")
+
+setKey("n", "<leader>sv", ":vsplit<CR>", { desc = "Split window vertically" })
+setKey("n", "<leader>sh", ":split<CR>", { desc = "Split window horizontally" })
+setKey("n", "<C-Up>", ":resize +2<CR>", { desc = "Increase window height" })
+setKey("n", "<C-Down>", ":resize -2<CR>", { desc = "Decrease window height" })
+setKey("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width" })
+setKey("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width" })
+
+-- Move lines up/down
+setKey("n", "<A-J>", ":m .+1<CR>==", { desc = "Move line down" })
+setKey("n", "<A-K>", ":m .-2<CR>==", { desc = "Move line up" })
+setKey("v", "<A-J>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+setKey("v", "<A-K>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
+
+-- Better indenting in visual mode
+setKey("v", "<", "<gv", { desc = "Indent left and reselect" })
+setKey("v", ">", ">gv", { desc = "Indent right and reselect" })
 
 vim.api.nvim_create_autocmd("TextYankPost", {
 	desc = "Highlight when yanking (copying) text",

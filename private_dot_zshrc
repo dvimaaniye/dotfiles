@@ -1,7 +1,7 @@
 bindkey -e
 
 HISTFILE="$HOME/.zsh_history"
-HISTSIZE=10000
+HISTSIZE=100000
 SAVEHIST=10000
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
@@ -10,19 +10,25 @@ export EDITOR="nvim"
 
 eval "$(starship init zsh)"
 
-bindkey -s "^f" "tmux-sessionizer\n"
+bindkey -s "^o" "tmux-sessionizer\n"
 bindkey -s "^v" "nvim .\n"
+bindkey "^[[3~" delete-char
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
 
 alias editconfig="tmux-sessionizer ~/.config"
 
-export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
-eval "$(tmuxifier init -)"
+# export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
+# eval "$(tmuxifier init -)"
 
-alias vi="vim"
-alias vim="nvim"
+#alias vi="vim"
+#alias vim="nvim"
 
-export PATH="/home/gautam/.config/herd-lite/bin:$PATH"
-export PHP_INI_SCAN_DIR="/home/gautam/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
+export PATH="$HOME/Applications:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/.config/herd-lite/bin:$PATH"
+export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
 
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
@@ -31,7 +37,7 @@ export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || pr
 export JAVA_HOME='/usr/lib/jvm/java-23-openjdk'
 
 # pnpm
-export PNPM_HOME="/home/gautam/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;

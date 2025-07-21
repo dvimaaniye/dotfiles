@@ -50,14 +50,13 @@ return {
 						return
 					end
 
-					-- if client.supports_method("textDocument/formatting") then
-					-- 	vim.api.nvim_create_autocmd("BufWritePre", {
-					-- 		buffer = args.buf,
-					-- 		callback = function()
-					-- 			vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
-					-- 		end,
-					-- 	})
-					-- end
+					if client.supports_method("textDocument/formatting") then
+						local conform = require("conform")
+
+						vim.keymap.set("n", "<leader>mp", function()
+							conform.format({ bufnr = args.buf, id = client.id })
+						end, { desc = "Format current buffer" })
+					end
 
 					local map = function(keys, func, desc)
 						vim.keymap.set("n", keys, func, { buffer = args.buf, desc = "LSP: " .. desc })

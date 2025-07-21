@@ -10,19 +10,22 @@ return {
 
 			appearance = {
 				nerd_font_variant = "mono",
+				use_nvim_cmp_as_default = true,
 			},
 
 			completion = {
 				menu = {
-					draw = {
-						columns = {
-							{ "kind_icon", "label", "label_description", gap = 1 },
-							{ "kind" },
-						},
-					},
+					border = "single",
+					-- draw = {
+					-- 	columns = {
+					-- 		{ "kind_icon", "label", gap = 1 },
+					-- 		{ "label_description" },
+					-- 	},
+					-- },
 				},
+				list = { selection = { preselect = false, auto_insert = true } },
+				ghost_text = { enabled = true },
 			},
-
 			signature = { enabled = true },
 		},
 	},

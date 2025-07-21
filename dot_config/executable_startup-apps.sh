@@ -5,12 +5,9 @@ function run {
 }
 
 commands=(
-	"/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1"
 	"picom -b --config $HOME/.config/picom/picom.conf"
-	"nm-applet"
-	"xfce4-power-manager"
-	"pamac-tray"
 	"clipit"
+	"Thunar --daemon"
 	"sxhkd -c $HOME/.config/sxhkd/sxhkdrc"
 	"fix_xcursor"
 	"$HOME/.config/polybar/launch"
