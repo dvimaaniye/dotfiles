@@ -22,6 +22,12 @@
 {XF86AudioMute,XF86AudioMicMute}
 	wpctl set-mute @DEFAULT_SINK@ toggle 
 
+XF86AudioNext
+	playerctl next
+
+XF86AudioPrev
+	playerctl previous
+
 XF86AudioPlay
 	playerctl play
 
@@ -54,6 +60,12 @@ super + comma
 
 super + a
 	i3-msg focus parent
+
+F10
+	playerctl previous
+
+F12
+	playerctl next
 
 F11
 	playerctl play-pause
