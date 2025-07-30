@@ -6,13 +6,10 @@ function run {
 
 commands=(
 	"picom -b --config $HOME/.config/picom/picom.conf"
-	"clipit"
 	"Thunar --daemon"
 	"sxhkd -c $HOME/.config/sxhkd/sxhkdrc"
+	"clipit"
 	"fix_xcursor"
-	"$HOME/.config/polybar/launch"
-	"feh --bg-fill -z $HOME/wallpapers/current/"
-	"flameshot"
 )
 
 for cmd in "${commands[@]}"

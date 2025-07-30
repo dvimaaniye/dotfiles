@@ -147,15 +147,20 @@ for_window [class="Timeset-gui"] floating enable border normal
 for_window [class="(?i)virtualbox"] floating enable border normal
 for_window [class="Xfburn"] floating enable
 
-for_window [urgent=latest] focus
+# for_window [urgent=latest] focus
 
 # for_window [class="(?i)LibreWolf" title="(?i)LibreWolf Private Browsing$"] move container to workspace $ws8
 # for_window [class="(?i)LibreWolf" title="(?i)LibreWolf$"] move container to workspace $ws9
+
+for_window [window_role="page-info"] floating enable
 
 for_window [class="(?i)Zen" title="(?i)Zen Browser Private Browsing$"] move container to workspace $ws4
 for_window [class="(?i)Zen" title="(?i)Zen Browser$"] move container to workspace $ws5
 
 for_window [class="(?i)scratchpad"] move scratchpad
+
+# no_focus [class="(?i)Zen"]
+# focus_on_window_activation urgent
 
 default_border pixel 1
 default_floating_border pixel 1
@@ -167,7 +172,7 @@ hide_edge_borders smart
 client.focused          #aaaaaa #000000 #ffffff #ffffff   #aaaaaa
 client.focused_inactive #333333 #000000 #ffffff #333333   #333333
 client.unfocused        #333333 #222222 #888888 #d2e40f   #222222
-client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.urgent           #2f343a #000000 #ffffff #ffffff   #000000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 # client.background       #ffffff
@@ -176,17 +181,18 @@ smart_gaps on
 gaps inner 10
 # gaps top -5
 
-# exec --no-startup-id volumeicon
 bindsym $mod+Ctrl+m exec $terminal -e 'alsamixer'
 
-exec_always --no-startup-id $HOME/.config/startup-apps.sh &
+exec --no-startup-id $HOME/.config/startup-apps.sh &
+exec_always --no-startup-id feh --bg-fill -z $HOME/wallpapers/current/
+exec_always --no-startup-id $HOME/.config/polybar/launch &
 
 exec_always --no-startup-id i3-msg "exec $terminal start --class scratchpad"
 
-# exec --no-startup-id dunst
-# exec i3-msg "exec $terminal; move scratchpad;"
 exec --no-startup-id i3-msg "exec zen-browser --private-window; exec zen-browser;"
 
+
+# exec --no-startup-id dunst
+
 exec --no-startup-id i3-msg "workspace $ws3; exec $terminal;"
-# exec i3-msg "workspace $ws10; append_layout ~/.config/i3/layouts/workspace-10.json; exec $terminal 'htop'; exec $terminal 'nmtui-connect'; exec $terminal 'bluetui';"
-exec i3-msg "workspace $ws3;"
+

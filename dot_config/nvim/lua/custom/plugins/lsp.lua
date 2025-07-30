@@ -42,6 +42,9 @@ return {
 			-- lsp.pyright.setup({ capabilities = capabilities })
 
 			vim.keymap.set("n", "<leader>lr", ":LspRestart<cr>", { desc = "Lsp Restart" })
+			vim.keymap.set("n", "<leader>li", ":LspInfo<cr>", { desc = "Lsp Info" })
+			vim.keymap.set("n", "<leader>ls", ":LspStop<cr>", { desc = "Lsp Stop" })
+			vim.keymap.set("n", "<leader>lS", ":LspStart<cr>", { desc = "Lsp Start" })
 
 			vim.api.nvim_create_autocmd("LspAttach", {
 				callback = function(args)
@@ -50,13 +53,13 @@ return {
 						return
 					end
 
-					if client.supports_method("textDocument/formatting") then
-						local conform = require("conform")
+					-- if client.supports_method("textDocument/formatting") then
+					local conform = require("conform")
 
-						vim.keymap.set("n", "<leader>mp", function()
-							conform.format({ bufnr = args.buf, id = client.id })
-						end, { desc = "Format current buffer" })
-					end
+					vim.keymap.set("n", "<leader>mp", function()
+						conform.format({ bufnr = args.buf })
+					end, { desc = "Format current buffer" })
+					-- end
 
 					local map = function(keys, func, desc)
 						vim.keymap.set("n", keys, func, { buffer = args.buf, desc = "LSP: " .. desc })
