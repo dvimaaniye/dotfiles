@@ -16,7 +16,7 @@ name=$(nmcli -t -f GENERAL.CONNECTION dev show $INTERFACE | sed -E "s/.*:(.*)/\1
 ip=$(nmcli -t -f IP4.ADDRESS dev show $INTERFACE | sed -n "1p" | sed -E "s/.*:(.*)/\1/")
 
 if [[ -z $name ]]; then
-    output="$output %{F#aaa}disconnected%{F-}"
+    output="$output %{F#aaa}on%{F-}"
     echo $output
     exit 0
 fi

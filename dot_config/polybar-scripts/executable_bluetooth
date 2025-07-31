@@ -34,7 +34,7 @@ done
 if [[ $devices_info ]]; then
     output="$devices_info"
 else
-    output="$output %{F#888}disconnected%{F-}"
+    output="$output %{F#888}on%{F-}"
 fi
 
 echo $output
