@@ -1,5 +1,4 @@
-#!/bin/bash
-
+#!/usr/bin/env bash
 
 capacity=$(upower -d | grep percentage -m 1 | awk '{ print $2 }' | tr -d "%")
 status=$(upower -d | grep state -m 1 | awk '{ print $2 }')

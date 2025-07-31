@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 output="%{F#db8}wifi%{F-}"
 

@@ -1,4 +1,5 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+
 output="%{F#98f}BT%{F-} "
 
 power=$(bluetoothctl show | grep "Powered" | sed -E 's/.*: (.*)/\1/')

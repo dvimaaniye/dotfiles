@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 power_state=$(bluetoothctl show | grep "Powered" | sed -E 's/.*: (.*)/\1/')
 
