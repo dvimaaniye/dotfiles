@@ -61,6 +61,9 @@ super + comma
 super + a
 	i3-msg focus parent
 
+F9
+	dunstify -t 2000 -i noicon "$(playerctl metadata title)" "$(playerctl metadata -f "\{\{duration(position)\}\}/\{\{duration(mpris:length)\}\}")"
+
 F10
 	playerctl previous
 
