@@ -21,13 +21,10 @@ return {
 				"lua_ls",
 				"intelephense",
 				"pyright",
-				"ts_ls",
 				"tailwindcss",
 				"svelte",
 				"templ",
 				"bashls",
-				"eslint",
-				"prismals",
 			}
 
 			local lsp = require("lspconfig")
@@ -36,10 +33,6 @@ return {
 			for _, server in ipairs(servers) do
 				lsp[server].setup({ capabilities = capabilities })
 			end
-
-			-- lsp.lua_ls.setup({ capabilities = capabilities })
-			-- lsp.intelephense.setup({ capabilities = capabilities })
-			-- lsp.pyright.setup({ capabilities = capabilities })
 
 			vim.keymap.set("n", "<leader>lr", ":LspRestart<cr>", { desc = "Lsp Restart" })
 			vim.keymap.set("n", "<leader>li", ":LspInfo<cr>", { desc = "Lsp Info" })

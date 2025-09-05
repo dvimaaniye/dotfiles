@@ -18,6 +18,7 @@ return {
 					typescriptreact = { "prettierd", "prettier", stop_after_first = true },
 					astro = { "prettierd", "prettier", stop_after_first = true },
 					json = { "prettierd", "prettier", stop_after_first = true },
+					jsonc = { "prettierd", "prettier", stop_after_first = true },
 				},
 				format_on_save = {
 					lsp_format = "fallback",

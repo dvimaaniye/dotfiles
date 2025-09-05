@@ -10,7 +10,6 @@ return {
 				"clangd",
 				"lua_ls",
 				"pyright",
-				"ts_ls",
 				"bashls",
 			},
 		},

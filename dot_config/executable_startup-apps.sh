@@ -10,6 +10,7 @@ commands=(
 	"sxhkd -c $HOME/.config/sxhkd/sxhkdrc"
 	"clipit"
 	"fix_xcursor"
+	"ibus-daemon -rxRd"
 )
 
 for cmd in "${commands[@]}"
