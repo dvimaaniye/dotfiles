@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-volume_line=$(wpctl get-volume @DEFAULT_SINK@)
-
-if [ $? -ne 0 ]; then
-	echo "VOL N/A"
+if ! wpctl inspect @DEFAULT_SINK@ > /dev/null; then
+	echo "%{F#f8d}VOL%{F-} N/A"
 	exit
 fi
+
+volume_line=$(wpctl get-volume @DEFAULT_SINK@)
 
 volume_status=$(echo $volume_line | sed 's/Volume: //')
 
