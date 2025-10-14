@@ -27,11 +27,10 @@ return {
 				"bashls",
 			}
 
-			local lsp = require("lspconfig")
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
 
 			for _, server in ipairs(servers) do
-				lsp[server].setup({ capabilities = capabilities })
+				vim.lsp.config(server, { capabilities = capabilities })
 			end
 
 			vim.keymap.set("n", "<leader>lr", ":LspRestart<cr>", { desc = "Lsp Restart" })
