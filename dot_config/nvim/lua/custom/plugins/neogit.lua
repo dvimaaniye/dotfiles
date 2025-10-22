@@ -7,8 +7,10 @@ return {
 		"nvim-telescope/telescope.nvim",
 	},
 	config = function()
-		local neogit = require('neogit')
+		local neogit = require("neogit")
 
-		vim.keymap.set("n", "<leader>gs", neogit.open, { desc = "Neogit Status" })
-	end
+		vim.keymap.set("n", "<leader>gs", function()
+			neogit.open({ kind = "floating" })
+		end, { desc = "Neogit Status" })
+	end,
 }

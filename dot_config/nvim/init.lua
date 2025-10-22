@@ -3,7 +3,7 @@ local global = vim.g
 local setKey = vim.keymap.set
 
 global.mapleader = " "
-global.maplocalleader = "\\"
+global.maplocalleader = ","
 
 global.have_nerd_font = true
 opt.termguicolors = true
@@ -45,17 +45,33 @@ opt.swapfile = false
 
 -- opt.guicursor = "n-v-c:block,i-ci-ve:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175"
 
-setKey("n", "<leader><leader>x", "<cmd>source %<CR>")
-setKey("n", "<leader>x", "<cmd>.lua<CR>")
-setKey("v", "<leader>x", "<cmd>.lua<CR>")
+setKey("n", "j", function()
+	if vim.v.count == 0 then
+		return "gj"
+	else
+		return "j"
+	end
+end, { expr = true })
 
-setKey("n", "<leader>w", "<cmd>w<CR>")
-setKey("n", "<leader>q", "<cmd>q<CR>")
+setKey("n", "k", function()
+	if vim.v.count == 0 then
+		return "gk"
+	else
+		return "k"
+	end
+end, { expr = true })
 
-setKey("n", "<leader>cn", "<cmd>cnext<CR>")
-setKey("n", "<leader>cp", "<cmd>cprev<CR>")
-setKey("n", "<leader>co", "<cmd>copen<CR>")
-setKey("n", "<leader>cc", "<cmd>cclose<CR>")
+setKey("n", "<leader>bw", ":w<CR>")
+setKey("n", "<leader>bd", ":bdelete<CR>")
+setKey("n", "<leader>fs", ":w<CR>")
+
+setKey("n", "<leader>qq", ":q<CR>")
+setKey("n", "<leader>qd", ":q!<CR>")
+
+setKey("n", "<leader>cn", ":cnext<CR>")
+setKey("n", "<leader>cp", ":cprev<CR>")
+setKey("n", "<leader>co", ":copen<CR>")
+setKey("n", "<leader>cc", ":cclose<CR>")
 
 setKey({ "n", "v" }, "<leader>d", [["_d]])
 setKey("x", "<leader>p", [["_dP]])
