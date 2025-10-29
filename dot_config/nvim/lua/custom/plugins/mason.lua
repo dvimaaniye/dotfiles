@@ -1,7 +1,13 @@
 return {
 	{
 		"mason-org/mason.nvim",
-		opts = {},
+		opts = {
+			ui = {
+				border = "single",
+				backdrop = 100,
+				height = 0.8,
+			},
+		},
 	},
 	{
 		"mason-org/mason-lspconfig.nvim",
@@ -11,10 +17,11 @@ return {
 				"lua_ls",
 				"pyright",
 				"bashls",
+				"ts_ls",
 			},
 		},
 		dependencies = {
-			{ "mason-org/mason.nvim", opts = {} },
+			"mason-org/mason.nvim",
 			"neovim/nvim-lspconfig",
 		},
 	},

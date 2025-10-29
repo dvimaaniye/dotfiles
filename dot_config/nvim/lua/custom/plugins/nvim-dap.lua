@@ -18,9 +18,9 @@ return {
 		vim.keymap.set("n", "<leader>tb", dap.toggle_breakpoint)
 		vim.keymap.set("n", "<leader>gb", dap.run_to_cursor)
 
-		vim.keymap.set("n", "<leader>?", function()
-			require("dapui").eval(nil, { enter = true })
-		end)
+		-- vim.keymap.set("n", "<leader>?", function()
+		-- 	require("dapui").eval(nil, { enter = true })
+		-- end)
 
 		vim.keymap.set("n", "<F1>", dap.continue)
 		vim.keymap.set("n", "<F2>", dap.step_into)

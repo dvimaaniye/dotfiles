@@ -3,14 +3,13 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"sindrets/diffview.nvim",
-
-		"nvim-telescope/telescope.nvim",
+		"folke/snacks.nvim",
 	},
 	config = function()
 		local neogit = require("neogit")
 
 		vim.keymap.set("n", "<leader>gs", function()
-			neogit.open({ kind = "floating" })
-		end, { desc = "Neogit Status" })
+			neogit.open({ kind = "replace" })
+		end, { desc = "Neo[g]it [S]tatus" })
 	end,
 }

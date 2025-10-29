@@ -1,6 +1,7 @@
 return {
 	{
 		"nvim-telescope/telescope.nvim",
+		enabled = false,
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
@@ -10,17 +11,18 @@ return {
 				defaults = {
 					sorting_strategy = "ascending",
 
+					results_title = false,
 					layout_strategy = "bottom_pane",
 					layout_config = {
 						height = 25,
 					},
 
 					border = true,
-					borderchars = {
-						prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
-						results = { " " },
-						preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
-					},
+					-- borderchars = {
+					-- 	prompt = { "─", " ", " ", " ", "─", "─", " ", " " },
+					-- 	results = { " " },
+					-- 	preview = { "─", "│", "─", "│", "╭", "╮", "╯", "╰" },
+					-- },
 				},
 				extensions = {
 					fzf = {},
@@ -28,6 +30,8 @@ return {
 			})
 
 			-- require("telescope").load_extension("fzf")
+
+			vim.api.nvim_set_hl(0, "TelescopeNormal", { bg = "none" })
 
 			local builtin = require("telescope.builtin")
 
@@ -57,6 +61,8 @@ return {
 			vim.keymap.set("n", "<leader>fn", function()
 				builtin.find_files({ cwd = vim.fn.stdpath("config") })
 			end, { desc = "[F]ind [N]eovim files" })
+
+			vim.keymap.set("n", "<leader>fc", builtin.commands, { desc = "[F]ind available plugin/user [c]ommands" })
 
 			require("custom.telescope.multigrep").setup({ keymap = "<leader>fm" })
 		end,

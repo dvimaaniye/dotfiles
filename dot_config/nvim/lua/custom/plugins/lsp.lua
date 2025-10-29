@@ -4,7 +4,7 @@ return {
 		dependencies = {
 			{
 				"folke/lazydev.nvim",
-				ft = "lua", -- only load on lua files
+				ft = "lua",
 				opts = {
 					library = {
 						-- See the configuration section for more details
@@ -46,8 +46,8 @@ return {
 						local conform = require("conform")
 
 						vim.keymap.set("n", "<leader>mp", function()
-							conform.format({ bufnr = args.buf })
-						end, { desc = "Format current buffer" })
+							conform.format({ bufnr = 0 })
+						end, { desc = "[M]ake [p]retty (format buffer)" })
 					end
 
 					local map = function(keys, func, desc)
@@ -59,14 +59,14 @@ return {
 					map("<leader>ls", ":LspStop<cr>", "Lsp Stop")
 					map("<leader>lS", ":LspStart<cr>", "Lsp Start")
 
-					local builtin = require("telescope.builtin")
+					-- local builtin = require("telescope.builtin")
 
-					map("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
-					map("gr", builtin.lsp_references, "[G]oto [R]eferences")
-					map("gI", builtin.lsp_implementations, "[G]oto [I]mplementation")
-					map("<leader>D", builtin.lsp_type_definitions, "Type [D]efinition")
-					map("<leader>ds", builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
-					map("<leader>ws", builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
+					-- map("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
+					-- map("gr", builtin.lsp_references, "[G]oto [R]eferences")
+					-- map("gI", builtin.lsp_implementations, "[G]oto [I]mplementation")
+					-- map("<leader>D", builtin.lsp_type_definitions, "Type [D]efinition")
+					-- map("<leader>ds", builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
+					-- map("<leader>ws", builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 					map("<leader>rn", vim.lsp.buf.rename, "[R]e[n]ame")
 					map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 					map("K", vim.lsp.buf.hover, "Hover Documentation")

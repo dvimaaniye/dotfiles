@@ -2,16 +2,11 @@ return {
 	{
 		"saghen/blink.cmp",
 		dependencies = "rafamadriz/friendly-snippets",
-
-		version = "v1.*",
-
 		---@module 'blink.cmp'
 		---@type blink.cmp.Config
 		opts = {
 			keymap = {
 				preset = "default",
-				-- ["<C-b>"] = { "scroll_documentation_up", "fallback" },
-				-- ["<C-f>"] = { "scroll_documentation_down", "fallback" },
 			},
 
 			appearance = {

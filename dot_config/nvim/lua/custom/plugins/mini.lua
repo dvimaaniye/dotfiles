@@ -5,6 +5,8 @@ return {
 		require("mini.statusline").setup({ use_icons = true })
 		require("mini.surround").setup({ silent = true })
 		require("mini.pairs").setup()
-		require("mini.bracketed").setup()
+		require("mini.bracketed").setup({
+			treesitter = { suffix = "" },
+		})
 	end,
 }

@@ -32,9 +32,9 @@ opt.smartcase = true
 
 opt.foldenable = true
 opt.foldlevel = 20
-opt.foldmethod = "expr"
-opt.foldexpr = "nvim_treesitter#foldexpr()"
 opt.foldcolumn = "1"
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 opt.undofile = true
 opt.undodir = vim.fn.expand("~/.local/share/nvim/undo")
@@ -61,17 +61,21 @@ setKey("n", "k", function()
 	end
 end, { expr = true })
 
-setKey("n", "<leader>bw", ":w<CR>")
-setKey("n", "<leader>bd", ":bdelete<CR>")
-setKey("n", "<leader>fs", ":w<CR>")
+setKey("n", "<leader>w", "<cmd>w<CR>")
+setKey("n", "<leader>fs", "<cmd>w<CR>")
+setKey("n", "<leader>bd", "<cmd>bdelete<CR>")
 
-setKey("n", "<leader>qq", ":q<CR>")
-setKey("n", "<leader>qd", ":q!<CR>")
+setKey("n", "<leader>qq", "<cmd>q<CR>")
+setKey("n", "<leader>qd", "<cmd>q!<CR>")
 
-setKey("n", "<leader>cn", ":cnext<CR>")
-setKey("n", "<leader>cp", ":cprev<CR>")
-setKey("n", "<leader>co", ":copen<CR>")
-setKey("n", "<leader>cc", ":cclose<CR>")
+setKey("n", "[t", "<cmd>tabprevious<CR>", { desc = "Tab prev" })
+setKey("n", "]t", "<cmd>tabnext<CR>", { desc = "Tab next" })
+
+setKey("n", "[T", "<cmd>tabfirst<CR>", { desc = "Tab first" })
+setKey("n", "]T", "<cmd>tablast<CR>", { desc = "Tab last" })
+
+setKey("n", "<leader>co", "<cmd>copen<CR>")
+setKey("n", "<leader>cc", "<cmd>cclose<CR>")
 
 setKey({ "n", "v" }, "<leader>d", [["_d]])
 setKey("x", "<leader>p", [["_dP]])
