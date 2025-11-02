@@ -8,6 +8,10 @@ end
 
 -- config.color_scheme = "Catppuccin Mocha"
 
+-- config.disable_default_key_bindings = true
+
+config.window_close_confirmation = "NeverPrompt"
+config.window_decorations = "NONE | RESIZE"
 config.colors = {
 	foreground = "#ffffff",
 	background = "#0a0a0a",
