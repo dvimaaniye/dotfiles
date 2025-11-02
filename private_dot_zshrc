@@ -16,7 +16,7 @@ export EDITOR="nvim"
 eval "$(starship init zsh)"
 
 bindkey -s "^o" "tmux-sessionizer\n"
-bindkey -s "^v" "nvim .\n"
+# bindkey -s "^v" "nvim .\n"
 bindkey "^[[3~" delete-char
 bindkey "^[[1~" beginning-of-line
 bindkey "^[[4~" end-of-line
@@ -36,6 +36,8 @@ path=(
   "$HOME/.local/bin"
   "$HOME/.config/herd-lite/bin"
   "$HOME/go/bin"
+  "$HOME/.config/emacs/bin"
+  "$HOME/.opencode/bin"
   $path
 )
 
