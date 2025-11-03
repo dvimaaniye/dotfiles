@@ -24,7 +24,7 @@ return {
 					draw = {
 						columns = {
 							{ "kind_icon" },
-							{ "label", "label_description", gap = 1 },
+							{ "label", "label_description", "source_name", gap = 1 },
 						},
 					},
 				},
@@ -38,7 +38,6 @@ return {
 			-- signature = { enabled = true },
 
 			sources = {
-				default = { "lsp", "path", "snippets", "buffer" },
 				per_filetype = {
 					sql = { "snippets", "dadbod", "buffer" },
 				},

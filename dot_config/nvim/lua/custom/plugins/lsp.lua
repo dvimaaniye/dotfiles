@@ -32,7 +32,8 @@ return {
 
 			for server, config in pairs(servers) do
 				vim.lsp.enable(server)
-				vim.lsp.config(server, blink.get_lsp_capabilities(config))
+				config.capabilities = blink.get_lsp_capabilities(config.capabilities, true)
+				vim.lsp.config(server, config)
 			end
 
 			vim.api.nvim_create_autocmd("LspAttach", {

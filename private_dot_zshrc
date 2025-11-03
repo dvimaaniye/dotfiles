@@ -83,7 +83,7 @@ alias cat='bat'
 
 # source ~/.zsh/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
-source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
 HISTORY_SUBSTRING_SEARCH_FUZZY=1
@@ -93,7 +93,7 @@ bindkey '^[[B' history-substring-search-down
 bindkey -M emacs '^P' history-substring-search-up
 bindkey -M emacs '^N' history-substring-search-down
 
-source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 fpath=(~/.zsh/zsh-completions/src $fpath)
 bindkey '^y' autosuggest-accept
 bindkey '^ ' autosuggest-toggle
