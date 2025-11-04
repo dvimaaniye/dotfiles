@@ -3,7 +3,7 @@ return {
 	dependencies = {
 		"L3MON4D3/LuaSnip",
 		"hrsh7th/cmp-nvim-lsp",
-		"hrsh7th/cmp-nvim-lsp-signature-help",
+		-- "hrsh7th/cmp-nvim-lsp-signature-help",
 		"hrsh7th/cmp-buffer",
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-cmdline",
@@ -14,7 +14,6 @@ return {
 	},
 	config = function()
 		local cmp = require("cmp")
-		local lspkind = require("lspkind")
 		require("luasnip.loaders.from_vscode").lazy_load()
 
 		cmp.setup({
@@ -26,6 +25,10 @@ return {
 			window = {
 				completion = cmp.config.window.bordered(),
 				documentation = cmp.config.window.bordered(),
+			},
+			view = {
+				entries = { name = "custom", selection_order = "near_cursor" },
+				-- docs = { auto_open = false },
 			},
 			formatting = {
 				fields = { "kind", "abbr", "menu" },
@@ -64,7 +67,7 @@ return {
 			}),
 			sources = cmp.config.sources({
 				{ name = "nvim_lsp" },
-				{ name = "nvim_lsp_signature_help" },
+				-- { name = "nvim_lsp_signature_help" },
 				{ name = "luasnip" },
 				{ name = "path" },
 				{ name = "buffer" },

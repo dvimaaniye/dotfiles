@@ -27,6 +27,15 @@ return {
 				view = "mini",
 			},
 		},
+		-- signature = {
+		-- 	enabled = true,
+		-- 	auto_open = {
+		-- 		enabled = true,
+		-- 		trigger = true,
+		-- 		luasnip = true,
+		-- 		throttle = 50,
+		-- 	},
+		-- },
 		presets = {
 			command_palette = true,
 			inc_rename = true,

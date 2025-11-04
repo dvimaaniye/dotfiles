@@ -11,20 +11,9 @@ return {
 			svelte = {},
 			templ = {},
 			bashls = {},
-			ts_ls = {
-				-- capabilities = {
-				-- 	textDocument = {
-				-- 		completion = {
-				-- 			completionItem = {
-				-- 				labelDetailsSupport = true,
-				-- 			},
-				-- 		},
-				-- 	},
-				-- },
-			},
+			ts_ls = {},
 		}
 
-		-- local blink = require("blink.cmp")
 		local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		for server, config in pairs(servers) do
@@ -32,6 +21,11 @@ return {
 			vim.lsp.config(server, config)
 			vim.lsp.enable(server)
 		end
+
+		vim.diagnostic.config({
+			severity_sort = true,
+			float = { border = "rounded", source = true },
+		})
 
 		vim.api.nvim_create_autocmd("LspAttach", {
 			callback = function(args)
