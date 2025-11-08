@@ -3,6 +3,13 @@ return {
 	dependencies = { { "nvim-mini/mini.icons", opts = {} } },
 	-- dependencies = { { "nvim-tree/nvim-web-devicons", opts = {} } },
 	config = function()
+		CustomOilBar = function()
+			local path = vim.fn.expand("%")
+			path = path:gsub("oil://", "")
+
+			return "  " .. vim.fn.fnamemodify(path, ":.")
+		end
+
 		require("oil").setup({
 			default_file_explorer = true,
 			delete_to_trash = true,
@@ -12,6 +19,7 @@ return {
 			},
 			win_options = {
 				signcolumn = "yes:2",
+				winbar = "%{v:lua.CustomOilBar()}",
 			},
 			view_options = {
 				show_hidden = true,
