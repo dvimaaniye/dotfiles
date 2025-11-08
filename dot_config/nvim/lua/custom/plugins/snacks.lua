@@ -48,13 +48,6 @@ return {
 			end,
 			desc = "Notification History",
 		},
-		{
-			"<leader>e",
-			function()
-				Snacks.explorer()
-			end,
-			desc = "File Explorer",
-		},
 		-- find
 		{
 			"<leader>fb",
@@ -119,13 +112,6 @@ return {
 				Snacks.picker.git_log_line()
 			end,
 			desc = "Git Log Line",
-		},
-		{
-			"<leader>gs",
-			function()
-				Snacks.picker.git_status()
-			end,
-			desc = "Git Status",
 		},
 		{
 			"<leader>gS",
@@ -289,14 +275,14 @@ return {
 			function()
 				Snacks.picker.man()
 			end,
-			desc = "Man Pages",
+			desc = "MansPages",
 		},
 		{
 			"<leader>sp",
 			function()
 				Snacks.picker.lazy()
 			end,
-			desc = "Search for Plugin Spec",
+			descs = "Search for Plugin Spec",
 		},
 		{
 			"<leader>sq",
