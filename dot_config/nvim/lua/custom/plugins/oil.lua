@@ -24,11 +24,17 @@ return {
 			view_options = {
 				show_hidden = true,
 			},
+			lsp_file_methods = {
+				enabled = true,
+				timeout_ms = 1000,
+				autosave_changes = "unmodified",
+			},
 			float = {
 				padding = 2,
 				max_width = 0.7,
 				max_height = 0.8,
 			},
+			watch_for_changes = true,
 			keymaps = {
 				["<C-h>"] = false,
 				["<C-l>"] = false,
@@ -41,14 +47,15 @@ return {
 
 		vim.keymap.set("n", "-", "<cmd>Oil<CR>", { desc = "Open parent directory" })
 
-		vim.api.nvim_create_autocmd("User", {
-			pattern = "OilActionsPost",
-			callback = function(event)
-				if event.data.actions.type == "move" then
-					Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
-				end
-			end,
-		})
+		-- vim.api.nvim_create_autocmd("User", {
+		-- 	pattern = "OilActionsPost",
+		-- 	callback = function(event)
+		-- 		if event.data.actions.type == "move" then
+		-- 			Snacks.rename.on_rename_file(event.data.actions.src_url, event.data.actions.dest_url)
+		-- 		end
+		-- 	end,
+		-- })
+
 		-- vim.g.loaded_netrw = 1
 		-- vim.g.loaded_netrwPlugin = 1
 	end,
