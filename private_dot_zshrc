@@ -15,7 +15,7 @@ export EDITOR="nvim"
 
 eval "$(starship init zsh)"
 
-bindkey -s "^o" "tmux-sessionizer\n"
+bindkey -s "^o" "project-sessionizer\n"
 # bindkey -s "^v" "nvim .\n"
 bindkey "^[[3~" delete-char
 bindkey "^[[1~" beginning-of-line
@@ -37,7 +37,6 @@ path=(
   "$HOME/.config/herd-lite/bin"
   "$HOME/go/bin"
   "$HOME/.config/emacs/bin"
-  "$HOME/.opencode/bin"
   $path
 )
 
@@ -100,3 +99,8 @@ bindkey '^ ' autosuggest-toggle
 
 autoload -Uz compinit
 compinit
+
+# opencode
+export PATH=/home/gautam/.opencode/bin:$PATH
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

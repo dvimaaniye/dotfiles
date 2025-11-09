@@ -8,58 +8,24 @@ switch_to() {
     fi
 }
 
-erun() {
-	echo "$1"
-	$1
-}
-
-
-PROJECTS_DIR="$HOME/projects"
-
-if [[ "$#" == 1 ]]; then
-	fzf_output="$1"
-else
-	fzf_output=$(find "$PROJECTS_DIR" -mindepth 1 -maxdepth 1 -type d | fzf --reverse --border --print-query --print0 | tr '\0' ' ')
-fi
-
-if [[ -z "$fzf_output" ]]; then
-	echo "No input"
+dir="$1"
+if [[ -z "$dir" ]]; then
+	echo "Provide a directory to create a session."
 	exit 1
 fi
-
-read -r fzf_query fzf_selection <<< "$fzf_output"
-
-if [[ -e "$fzf_selection" ]]; then
-	selected_dir=$fzf_selection
-else
-	selected_dir=$fzf_query
+if [[ ! -d "$dir" ]]; then
+	echo "$dir not a directory. Can't create session."
+	exit 2
 fi
 
-if [[ ! -d "$selected_dir" ]]; then
-	read -r repo_name options <<< "$selected_dir"
-	if [[ -z $repo_name ]]; then
-		echo "Got no repo name to clone"
-		exit 2
-	fi
-
-	echo "No local match for: ${repo_name}"
-	selected_dir="$PROJECTS_DIR/$repo_name"
-
-	erun "git clone git@github.com:dvimaaniye/$repo_name $PROJECTS_DIR/$repo_name $options"
-	if [[ $? -ne 0 ]]; then
-		exit $?
-	fi
-fi
-
-selected_project_name=$(basename "$selected_dir" | tr . _)
-
-if [[ -z $selected_project_name ]]; then
+project_name=$(basename "$dir" | tr . _)
+if [[ -z $project_name ]]; then
 	echo "No valid characters in project name"
     exit 3
 fi
 
-if ! tmux has-session -t=$selected_project_name 2> /dev/null; then
-    tmux new-session -ds $selected_project_name -c "$selected_dir" \; new-window -c "$selected_dir" -t $selected_project_name \; select-window -t $selected_project_name:1 \; send-keys "nvim" Enter ; 
+if ! tmux has-session -t=$project_name 2> /dev/null; then
+    tmux new-session -ds $project_name -c "$dir" \; new-window -c "$dir" -t $project_name \; select-window -t $project_name:1 \; send-keys "nvim" Enter \;
 fi
 
-switch_to $selected_project_name
+switch_to $project_name

@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+
+PROJECTS_DIR="$HOME/projects"
+CLONE_OPTION="Clone from Github"
+
+get_repo_name() {
+	echo "$1" | cut -d' ' -f1 | cut -d'/' -f2
+}
+
+get_username_and_repo_name() {
+	echo "$1" | cut -d' ' -f1
+}
+
+select_github_repo() {
+	repos=$(gh-repo-indexer)
+	
+	selected=$(echo "$repos" | fzf --reverse --border \
+		--prompt="Select Repository > " \
+		--delimiter=' ' \
+		--with-nth=1 \
+		--preview='echo {2..}' \
+		--preview-window=right:80:wrap \
+		--preview-label=" Description ")
+	
+	echo "$selected"
+}
+
+prompt_destination() {
+	repo_name="$1"
+	read -r -p "Dest (default: $repo_name):$PROJECTS_DIR/" dir
+	dir=${dir:-$repo_name}
+	echo "$PROJECTS_DIR/$dir"
+}
+
+clone_repo() {
+	repo_id="$1"
+	dest_dir="$2"
+	clone_opts="$3"
+	
+	if [[ ! -d "$dest_dir" ]]; then
+		mkdir -p "$dest_dir"
+	fi
+	
+	git clone "git@github.com:$repo_id" "$dest_dir" $clone_opts
+}
+
+clone_from_github() {
+	selected=$(select_github_repo)
+
+	if [[ -z "$selected" ]]; then
+		return 1
+	fi
+
+	repo_id=$(get_username_and_repo_name "$selected")
+	repo_name=$(get_repo_name "$selected")
+	dest_dir=$(prompt_destination "$repo_name")
+
+	read -r -p "Options for git clone: " clone_opts
+
+	clone_repo "$repo_id" "$dest_dir" "$clone_opts"
+	echo "$dest_dir"
+}
+
+main() {
+	local_projects=$(find "$PROJECTS_DIR" -mindepth 1 -maxdepth 1 -type d)
+
+	fzf_selection=$({
+		echo "$CLONE_OPTION" 
+		echo "$local_projects" 
+	} | fzf --reverse --border | xargs)
+
+	if [[ -z "$fzf_selection" ]]; then
+		return 1
+	fi
+
+	dir="$fzf_selection"
+	if [[ "$fzf_selection" == "$CLONE_OPTION" ]]; then
+		dir=$(clone_from_github)
+	fi
+
+	tmux-sessionizer "$dir"
+}
+
+main "$@"
