@@ -1,106 +1,109 @@
-bindkey -e
+# ============================================================================
+# History Configuration
+# ============================================================================
 
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=100000
-SAVEHIST=10000
+SAVEHIST=100000
 setopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt EXTENDED_HISTORY
 
-WORDCHARS='*?_-.[]~=/&;!#$%^(){}<> '
-autoload -Uz select-word-style
-select-word-style normal
-zstyle ':zle:*' word-style unspecified
+# ============================================================================
+# Completion System
+# ============================================================================
 
-export EDITOR="nvim"
+fpath=("$HOME/.zsh/plugins/zsh-completions/src" $fpath)
+autoload -Uz compinit
+for dump in $HOME/.zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+
+# ============================================================================
+# Aliases
+# ============================================================================
+
+alias  ls='eza --color=always'
+alias   l='eza --color=always -1'  # One per line
+alias  ll='eza --color=always -lh --icons'   # Long format
+alias  la='eza --color=always -lha --icons'  # All files + hidden
+alias llg='eza --color=always -lh --icons --grid'   # Long format grid
+alias lag='eza --color=always -lha --icons --grid'  # All files grid
+alias  lt='eza --color=always -lh --icons --tree --level=2'  # Tree view (2 levels)
+alias  lz='eza --color=always -lh --icons --sort=size --reverse'      # Sort by size
+alias  lr='eza --color=always -lh --icons --sort=modified --reverse'  # Sort by time
+alias  lg='eza --color=always -lh --icons --git --git-ignore'  # Git-aware view
+
+alias editconfig="tmux-sessionizer $HOME/.config"
+
+# ============================================================================
+# Functions
+# ============================================================================
+
+function y() {
+  if [ "$1" != "" ]; then
+    if [ -d "$1" ]; then
+      yazi "$1"
+    else
+      yazi "$(zoxide query $1)"
+    fi
+  else
+    yazi
+  fi
+    return $?
+}
+
+function take() {
+  mkdir -p "$1" && cd "$1"
+}
+
+# ============================================================================
+# Plugins
+# ============================================================================
+
+# Do I want this?
+source "$HOME/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh"
+
+export NVM_LAZY_LOAD=true
+export NVM_COMPLETION=true
+source "$HOME/.zsh/plugins/zsh-nvm/zsh-nvm.plugin.zsh"
+
+source "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+source "$HOME/.zsh/plugins/zsh-dot-up/zsh-dot-up.plugin.zsh"
+
+source "$HOME/.zsh/plugins/npms/npms.plugin.zsh"
+
+source "$HOME/.zsh/plugins/zsh-bat/zsh-bat.plugin.zsh"
+
+source "$HOME/.fzf.zsh"
+
+source "$HOME/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+
+source "$HOME/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+HISTORY_SUBSTRING_SEARCH_FUZZY=1
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
 eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+# ============================================================================
+# Keybindings 
+# ============================================================================
 
+# Basic keybindings
+bindkey -e
 bindkey -s "^o" "project-sessionizer\n"
-# bindkey -s "^v" "nvim .\n"
 bindkey "^[[3~" delete-char
 bindkey "^[[1~" beginning-of-line
 bindkey "^[[4~" end-of-line
 
-alias editconfig="tmux-sessionizer ~/.config"
-
-# export PATH="$HOME/.config/tmux/plugins/tmuxifier/bin:$PATH"
-# eval "$(tmuxifier init -)"
-
-#alias vi="vim"
-#alias vim="nvim"
-
-typeset -U path
-path=(
-  "$HOME/Applications"
-  "$HOME/.cargo/bin"
-  "$HOME/.local/bin"
-  "$HOME/.config/herd-lite/bin"
-  "$HOME/go/bin"
-  "$HOME/.config/emacs/bin"
-  $path
-)
-
-export PATH
-
-export PHP_INI_SCAN_DIR="$HOME/.config/herd-lite/bin:$PHP_INI_SCAN_DIR"
-
-export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-export JAVA_HOME='/usr/lib/jvm/java-23-openjdk'
-
-# pnpm
-export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-
-function y() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
-}
-
-# export MANPAGER='less -R --use-color -Dd+r -Du+b'
-
-eval "$(zoxide init --cmd cd zsh)"
-
-alias ls='eza'
-alias ll='ls -l --icons'
-alias llg='ls -l --icons --grid'
-alias la='ls -a'
-alias lla='ls -al --icons'
-alias llag='ls -al --icons --grid'
-
-alias cat='bat'
-
-# source ~/.zsh/.zsh-vi-mode/zsh-vi-mode.plugin.zsh
-
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
-source ~/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh
-HISTORY_SUBSTRING_SEARCH_FUZZY=1
-HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey -M emacs '^P' history-substring-search-up
-bindkey -M emacs '^N' history-substring-search-down
-
-source /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
-fpath=(~/.zsh/zsh-completions/src $fpath)
+# Plugin-specific keybindings
 bindkey '^y' autosuggest-accept
 bindkey '^ ' autosuggest-toggle
-
-autoload -Uz compinit
-compinit
-
-# opencode
-export PATH=/home/gautam/.opencode/bin:$PATH
-
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
