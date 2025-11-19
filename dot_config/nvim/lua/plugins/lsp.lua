@@ -1,4 +1,4 @@
-require("custom.lsp").setup()
+require("config.lsp").setup()
 
 return {
 	{

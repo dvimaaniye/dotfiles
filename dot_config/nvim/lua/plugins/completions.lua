@@ -13,7 +13,7 @@ return {
 			"xzbdmw/colorful-menu.nvim",
 		},
 		config = function()
-			require("custom.completions").setup()
+			require("config.completions").setup()
 		end,
 	},
 }

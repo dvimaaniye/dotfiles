@@ -8,7 +8,7 @@ return {
 			local configs = require("nvim-treesitter.configs")
 
 			configs.setup({
-				ensure_installed = require("custom.languages").ensure_installed,
+				ensure_installed = require("config.languages").ensure_installed,
 				sync_install = false,
 				auto_install = true,
 				ignore_install = {},
