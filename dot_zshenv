@@ -1,9 +1,8 @@
 export EDITOR="nvim"
 export JAVA_HOME='/usr/lib/jvm/java-23-openjdk'
-export NVM_DIR="$HOME/.nvm"
-export PNPM_HOME="$HOME/.local/share/pnpm"
 export LESS='-R --use-color'
 export BAT_PAGER="less -RF"
+export FNM_PATH="$HOME/.local/share/fnm"
 
 typeset -U path
 path=(
@@ -13,8 +12,8 @@ path=(
   "$HOME/.config/herd-lite/bin"
   "$HOME/go/bin"
   "$HOME/.config/emacs/bin"
-  "$PNPM_HOME"
   "$HOME/.opencode/bin"
+  "$FNM_PATH"
   $path
 )
 export PATH
