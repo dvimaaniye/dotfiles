@@ -105,7 +105,9 @@ function fuzzy-yazi() {
 # ============================================================================
 
 function project-sessionizer-widget() {
-    project-sessionizer
+    zle push-line
+    BUFFER="project-sessionizer"
+    zle accept-line
 }
 
 function custom-ctrl-f-widget() {
