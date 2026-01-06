@@ -1,10 +1,20 @@
 return {
 	{
-		require("themes.catppuccin"),
+		require("themes.current"),
 	},
+
 	{
 		"xiyaowong/transparent.nvim",
 		lazy = false,
+	},
+
+	{
+		"nvim-mini/mini.icons",
+		opts = {
+			default = {
+				file = { glyph = "" },
+			},
+		},
 	},
 
 	{

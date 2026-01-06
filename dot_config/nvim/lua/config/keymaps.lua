@@ -54,8 +54,8 @@ keymap("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase windo
 -- Move lines up/down
 keymap("n", "<A-J>", "<cmd>m .+1<CR>==", { desc = "Move line down" })
 keymap("n", "<A-K>", "<cmd>m .-2<CR>==", { desc = "Move line up" })
-keymap("v", "<A-J>", "<cmd>m '>+1<CR>gv=gv", { desc = "Move selection down" })
-keymap("v", "<A-K>", "<cmd>m '<-2<CR>gv=gv", { desc = "Move selection up" })
+keymap("v", "<A-J>", ":m '>+1<CR>gv=gv", { desc = "Move selection down" })
+keymap("v", "<A-K>", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 
 -- Better indenting in visual mode
 keymap("v", "<", "<gv", { desc = "Indent left and reselect" })

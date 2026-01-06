@@ -12,8 +12,6 @@ return {
 			"nvim-treesitter/nvim-treesitter",
 			"xzbdmw/colorful-menu.nvim",
 		},
-		config = function()
-			require("config.completions").setup()
-		end,
+		config = require("config.completions").setup,
 	},
 }

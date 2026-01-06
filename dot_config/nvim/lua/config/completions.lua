@@ -25,11 +25,11 @@ M.setup = function()
 					mode = "symbol",
 					show_labelDetails = true,
 					max_width = {
-						menu = 80,
+						menu = 50,
 						abbr = 50,
 					},
 					ellipsis_char = "...",
-				})(entry, vim.deepcopy(vim_item))
+				})(entry, vim_item)
 				local highlights_info = require("colorful-menu").cmp_highlights(entry)
 
 				-- highlight_info is nil means we are missing the ts parser, it's
@@ -59,6 +59,9 @@ M.setup = function()
 			{ name = "path" },
 		}, {
 			{ name = "buffer" },
+		}, {
+			name = "lazydev",
+			group_index = 0,
 		}),
 	})
 

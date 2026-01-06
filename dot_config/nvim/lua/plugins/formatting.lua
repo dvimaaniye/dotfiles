@@ -1,9 +1,31 @@
 return {
 	{
 		"stevearc/conform.nvim",
-		event = { "BufReadPre", "BufNewFile" },
+		dependencies = { "mason-org/mason.nvim" },
+		event = { "BufWritePre" },
+		cmd = { "ConformInfo" },
+		keys = {
+			{
+				"<leader>mp",
+				function()
+					require("conform").format()
+				end,
+				mode = "",
+				desc = "Format buffer",
+			},
+		},
+		init = function()
+			vim.o.formatexpr = "v:lua.require('conform').formatexpr()"
+		end,
+		---@module "conform"
+		---@type conform.setupOpts
 		opts = {
 			formatters_by_ft = {
+				bash = { "beautysh" },
+				csh = { "beautysh" },
+				ksh = { "beautysh" },
+				sh = { "beautysh" },
+				zsh = { "beautysh" },
 				c = { "clang-format" },
 				cpp = { "clang-format" },
 				lua = { "stylua" },

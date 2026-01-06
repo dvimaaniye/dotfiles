@@ -11,9 +11,10 @@ return {
 
 			vim.keymap.set("n", "<leader>gs", function()
 				neogit.open({ kind = "replace" })
-			end, { desc = "Neo[g]it [S]tatus" })
+			end, { desc = "Neo[g]it [s]tatus" })
 		end,
 	},
+
 	{
 		"lewis6991/gitsigns.nvim",
 		opts = {
@@ -22,14 +23,13 @@ return {
 				change = { text = "~" },
 			},
 			on_attach = function(bufnr)
-				local gitsigns = require("gitsigns")
-
 				local function map(mode, l, r, opts)
 					opts = opts or {}
 					opts.buffer = bufnr
 					vim.keymap.set(mode, l, r, opts)
 				end
 
+				local gitsigns = require("gitsigns")
 				-- Navigation
 				map("n", "]h", function()
 					if vim.wo.diff then

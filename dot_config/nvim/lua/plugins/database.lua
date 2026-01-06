@@ -1,12 +1,17 @@
 return {
 	{
-		"tpope/vim-dadbod",
-	},
-	{
-		"kristijanhusak/vim-dadbod-ui",
+		"kndndrj/nvim-dbee",
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+		},
+		build = function()
+			-- Install tries to automatically detect the install method.
+			-- if it fails, try calling it with one of these parameters:
+			--    "curl", "wget", "bitsadmin", "go"
+			require("dbee").install()
+		end,
 		config = function()
-			vim.keymap.set("n", "<leader>D", "<cmd>DBUIToggle<CR>", { desc = "DB UI Toggle" })
+			require("dbee").setup()
 		end,
 	},
-	{ "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
 }

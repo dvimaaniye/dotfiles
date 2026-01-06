@@ -6,7 +6,7 @@ return {
 		"saadparwaiz1/cmp_luasnip",
 		"rafamadriz/friendly-snippets",
 	},
-	config = function()
+	init = function()
 		local ls = require("luasnip")
 
 		vim.keymap.set({ "i" }, "<C-o>", function()
@@ -26,7 +26,5 @@ return {
 				ls.change_choice(1)
 			end
 		end, { silent = true })
-
-		ls.setup()
 	end,
 }

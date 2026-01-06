@@ -2,9 +2,8 @@ local M = {}
 
 local servers = {}
 
-local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
-
 M.setup = function()
+	local default_capabilities = require("cmp_nvim_lsp").default_capabilities()
 	for server, config in pairs(servers) do
 		config.capabilities = vim.tbl_deep_extend("force", default_capabilities, config.capabilities or {})
 		vim.lsp.config(server, config)
@@ -25,14 +24,6 @@ M.setup = function()
 			local client = vim.lsp.get_client_by_id(args.data.client_id)
 			if not client then
 				return
-			end
-
-			if client:supports_method("textDocument/formatting") then
-				local conform = require("conform")
-
-				vim.keymap.set("n", "<leader>mp", function()
-					conform.format({ bufnr = args.buf })
-				end, { desc = "[M]ake [p]retty (format buffer)" })
 			end
 
 			local keymap = function(keys, func, desc)

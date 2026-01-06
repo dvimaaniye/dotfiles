@@ -9,28 +9,19 @@ return {
 			"TmuxNavigatePrevious",
 		},
 		keys = {
-			{ "<C-h>", "<cmd>TmuxNavigateLeft<CR>" },
-			{ "<C-j>", "<cmd>TmuxNavigateDown<CR>" },
-			{ "<C-k>", "<cmd>TmuxNavigateUp<CR>" },
-			{ "<C-l>", "<cmd>TmuxNavigateRight<CR>" },
-			{ "<C-\\>", "<cmd>TmuxNavigatePrevious<CR>" },
+			{ "<C-h>", ":TmuxNavigateLeft<CR>" },
+			{ "<C-j>", ":TmuxNavigateDown<CR>" },
+			{ "<C-k>", ":TmuxNavigateUp<CR>" },
+			{ "<C-l>", ":TmuxNavigateRight<CR>" },
+			{ "<C-\\>", ":TmuxNavigatePrevious<CR>" },
 		},
 	},
 
-	{ "kevinhwang91/nvim-bqf", ft = "qf" },
-
-	{
-		"stevearc/quicker.nvim",
-		ft = "qf",
-		---@module "quicker"
-		---@type quicker.SetupOptions
-		opts = {},
-	},
+	{ "kevinhwang91/nvim-bqf", ft = "qf", dependencies = { "junegunn/fzf" } },
 
 	{
 		"stevearc/oil.nvim",
-		dependencies = { { "nvim-mini/mini.icons", opts = {} } },
-		-- dependencies = { { "nvim-tree/nvim-web-devicons", opts = {} } },
+		dependencies = { "nvim-mini/mini.icons" },
 		config = function()
 			CustomOilBar = function()
 				local path = vim.fn.expand("%")
@@ -458,13 +449,13 @@ return {
 				end,
 				desc = "Undo History",
 			},
-			{
-				"<leader>uC",
-				function()
-					Snacks.picker.colorschemes()
-				end,
-				desc = "Colorschemes",
-			},
+			-- {
+			-- 	"<leader>uC",
+			-- 	function()
+			-- 		Snacks.picker.colorschemes()
+			-- 	end,
+			-- 	desc = "Colorschemes",
+			-- },
 			-- Todo comments
 			{
 				"<leader>st",
@@ -544,6 +535,13 @@ return {
 					Snacks.picker.lsp_workspace_symbols()
 				end,
 				desc = "LSP Workspace Symbols",
+			},
+			{
+				"<leader>E",
+				function()
+					Snacks.picker.explorer()
+				end,
+				desc = "File Explorer",
 			},
 		},
 	},
