@@ -9,6 +9,8 @@ end
 -- config.color_scheme = "Catppuccin Mocha"
 
 -- config.disable_default_key_bindings = true
+config.audible_bell = "Disabled"
+config.debug_key_events = false
 
 config.window_close_confirmation = "NeverPrompt"
 config.window_decorations = "NONE | RESIZE"
@@ -55,4 +57,11 @@ config.font_size = 11
 
 config.cursor_blink_rate = 0
 
+config.keys = {
+	{
+		key = "l",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.DisableDefaultAssignment,
+	},
+}
 return config
