@@ -13,13 +13,15 @@ sudo pacman -S --noconfirm --needed base-devel git
 
 # Install aur helper (yay)
 git clone https://aur.archlinux.org/yay-bin.git /tmp/yay
-cd /tmp/yay
-makepkg -si
+(
+    cd /tmp/yay
+    makepkg -si
+)
 
 # Install pacman pkgs
 mapfile -t PKGS < <(read_list "${SETUP_PATH-$HOME/.config/setup}"/data/pacman-packages.txt)
-sudo pacman -S "${PKGS[@]}"
+sudo pacman -S --noconfirm --needed "${PKGS[@]}"
 
 # Install yay pkgs
 mapfile -t PKGS < <(read_list "${SETUP_PATH-$HOME/.config/setup}"/data/aur-packages.txt)
-yay -S "${PKGS[@]}"
+yay -S --noconfirm --needed "${PKGS[@]}"

@@ -5,17 +5,17 @@ set -euo pipefail
 PLUGINS_DIR="$HOME/.zsh/plugins"
 
 declare -A PLUGINS=(
-    ["zsh-nvm"]="https://github.com/lukechilds/zsh-nvm.git"
-    ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions.git"
-    ["zsh-history-substring-search"]="https://github.com/zsh-users/zsh-history-substring-search.git"
-    ["fast-syntax-highlighting"]="https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
-    ["zsh-completions"]="https://github.com/zsh-users/zsh-completions.git"
-	["fzf-tab"]="https://github.com/Aloxaf/fzf-tab.git.git"
-	["zsh-dot-up"]="https://github.com/toku-sa-n/zsh-dot-up.git"
-	["npms"]="https://github.com/torifat/npms.git"
-	# ["zsh-better-npm-completion"]="https://github.com/lukechilds/zsh-better-npm-completion.git"
-	["zsh-bat"]="https://github.com/fdellwing/zsh-bat.git"
-	# ["colorize"]="https://github.com/zpm-zsh/colorize.git"
+    ["zsh-nvm"]="https://github.com/lukechilds/zsh-nvm"
+    ["zsh-autosuggestions"]="https://github.com/zsh-users/zsh-autosuggestions"
+    ["zsh-history-substring-search"]="https://github.com/zsh-users/zsh-history-substring-search"
+    ["fast-syntax-highlighting"]="https://github.com/zdharma-continuum/fast-syntax-highlighting"
+    ["zsh-completions"]="https://github.com/zsh-users/zsh-completions"
+    ["fzf-tab"]="https://github.com/Aloxaf/fzf-tab"
+    ["zsh-dot-up"]="https://github.com/toku-sa-n/zsh-dot-up"
+    ["npms"]="https://github.com/torifat/npms"
+    # ["zsh-better-npm-completion"]="https://github.com/lukechilds/zsh-better-npm-completion"
+    ["zsh-bat"]="https://github.com/fdellwing/zsh-bat"
+    # ["colorize"]="https://github.com/zpm-zsh/colorize"
 )
 
 # Color codes for output
