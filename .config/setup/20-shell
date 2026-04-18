@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-grep -E '^(ID|ID_LIKE)=' /etc/os-release | grep arch || echo "Script only meant for arch based distro" && exit 1
+grep -E '^(ID|ID_LIKE)=' /etc/os-release | grep arch &>/dev/null || echo "Script only meant for arch based distro" && exit 1
 
 # Ensure repo cache is up-to-date and upgrade packages
 sudo pacman -Syu --noconfirm
@@ -14,9 +14,9 @@ cd /tmp/yay
 makepkg -si
 
 # Install pacman pkgs
-mapfile -t PKGS < <(read_list ./data/pacman-packages.txt)
+mapfile -t PKGS < <(read_list "${SETUP_PATH-$HOME/.config/setup}"/data/pacman-packages.txt)
 sudo pacman -S "${PKGS[@]}"
 
 # Install yay pkgs
-mapfile -t PKGS < <(read_list ./data/aur-packages.txt)
+mapfile -t PKGS < <(read_list "${SETUP_PATH-$HOME/.config/setup}"/data/aur-packages.txt)
 yay -S "${PKGS[@]}"

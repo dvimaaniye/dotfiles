@@ -3,7 +3,7 @@
 REPO_URL="https://github.com/ryanoasis/nerd-fonts"
 INSTALLATION_DIR="$HOME/.local/share/fonts"
 # See https://github.com/ryanoasis/nerd-fonts/releases/latest to find all available fonts
-mapfile -t NERD_FONTS < ./data/nerd-fonts.txt
+mapfile -t NERD_FONTS < "${SETUP_PATH-$HOME/.config/setup}/data/nerd-fonts.txt"
 
 get_latest_version() {
     font_url=$(curl -s "$REPO_URL/releases/latest" -w "%{redirect_url}")

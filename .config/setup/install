@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-for file in $HOME/.config/setup/*; do
+export SETUP_PATH=$HOME/.config/setup
+
+for file in "$SETUP_PATH"/*; do
     if [[ "${file##*/}" =~ [0-9][0-9].* ]]; then
         echo "Sourcing $file..."
         . "$file"
