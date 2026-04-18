@@ -1,0 +1,130 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+INDEX_DIR="$HOME/.local/share/gh-repo-index"
+INDEX_NAME="index.json"
+INDEX_FILE="$INDEX_DIR/$INDEX_NAME"
+
+ensure_index_file() {
+	if [[ ! -f "$INDEX_FILE" ]]; then
+		mkdir -p "$INDEX_DIR"
+		echo '{}' > "$INDEX_FILE"
+	fi
+}
+
+get_gh_url() {
+	echo "https://api.github.com/users/$1/repos?sort=updated"
+}
+
+fetch_repo_index() {
+	curl -f "$1" | jq 'map({(.name): (.description // "No description")}) | add'
+}
+
+update_index() {
+	username="$1"
+	repo_index="$2"
+	updated_index=$(jq --arg user "$username" --argjson repos "$repo_index" '.[$user] = $repos' "$INDEX_FILE")
+	echo "$updated_index" > "$INDEX_FILE"
+}
+
+has_username() {
+	jq --arg user "$1" -e 'has($user)' "$INDEX_FILE" > /dev/null
+}
+
+print_user_repos() {
+	jq -r --arg user "$1" '.[$user] | to_entries[] | "\($user)/\(.key) \(.value)"' "$INDEX_FILE"
+}
+
+print_all_repos() {
+	jq -r 'to_entries[] | .key as $user | .value | to_entries[] | "\($user)/\(.key) \(.value)"' "$INDEX_FILE"
+}
+
+get_all_usernames() {
+	jq -r 'keys[]' "$INDEX_FILE"
+}
+
+fetch_and_update() {
+	username="$1"
+	gh_url=$(get_gh_url "$username")
+	repo_index=$(fetch_repo_index "$gh_url")
+	update_index "$username" "$repo_index"
+}
+
+update_all_users() {
+	usernames=$(get_all_usernames)
+	if [[ -z "$usernames" ]]; then
+		echo "No usernames in index to update"
+		return 0
+	fi
+	while read -r username; do
+		echo "Updating $username..."
+		fetch_and_update "$username"
+	done <<< "$usernames"
+}
+
+delete_user() {
+	username="$1"
+	updated_index=$(jq --arg user "$username" 'del(.[$user])' "$INDEX_FILE")
+	echo "$updated_index" > "$INDEX_FILE"
+	echo "Deleted $username from index"
+}
+
+clear_index() {
+	echo '{}' > "$INDEX_FILE"
+	echo "Cleared entire index"
+}
+
+main() {
+	ensure_index_file
+
+	if [[ $# -eq 0 ]]; then
+		print_all_repos
+		return 0
+	fi
+
+	case "$1" in
+		-d|--delete)
+			if [[ -n "${2:-}" ]]; then
+				delete_user "$2"
+			else
+				read -r -p "Delete entire index? [y/N]: " response
+				response="${response:-N}"
+				if [[ "$response" =~ ^[Yy]$ ]]; then
+					clear_index
+				else
+					echo "Operation cancelled"
+				fi
+			fi
+			return 0
+			;;
+		-u|--update)
+			if [[ -n "${2:-}" ]]; then
+				fetch_and_update "$2"
+				echo "Updated repos for $2"
+			else
+				update_all_users
+			fi
+			return 0
+			;;
+		*)
+			username="$1"
+			if has_username "$username"; then
+				print_user_repos "$username"
+			else
+				read -r -p "Username '$username' not in index. Fetch from GitHub? [Y/n]: " response
+				response="${response:-y}"
+				if [[ "$response" =~ ^[Yy]$ ]]; then
+					fetch_and_update "$username"
+					echo "Fetched repos for $username"
+				else
+					echo "Operation cancelled"
+					return 0
+				fi
+			fi
+			return 0
+			;;
+	esac
+}
+
+main "$@"

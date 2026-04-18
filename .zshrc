@@ -1,0 +1,181 @@
+# ============================================================================
+# History Configuration
+# ============================================================================
+
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=100000
+SAVEHIST=100000
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
+setopt EXTENDED_HISTORY
+
+# ============================================================================
+# Completion System
+# ============================================================================
+
+fpath=("$HOME/.zsh/plugins/zsh-completions/src" $fpath)
+autoload -Uz compinit
+for dump in $HOME/.zcompdump(N.mh+24); do
+    compinit
+done
+compinit -C
+
+# ============================================================================
+# Plugins
+# ============================================================================
+
+# Do I want this?
+source "$HOME/.zsh/plugins/fzf-tab/fzf-tab.plugin.zsh"
+
+source "$HOME/.zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh"
+
+source "$HOME/.zsh/plugins/zsh-dot-up/zsh-dot-up.plugin.zsh"
+
+source "$HOME/.zsh/plugins/npms/npms.plugin.zsh"
+
+source "$HOME/.zsh/plugins/zsh-bat/zsh-bat.plugin.zsh"
+
+source "$HOME/.fzf.zsh"
+
+source "$HOME/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
+
+source "$HOME/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
+HISTORY_SUBSTRING_SEARCH_FUZZY=1
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+
+eval "$(starship init zsh)"
+eval "$(zoxide init zsh)"
+eval "$(fnm env)"
+
+# ============================================================================
+# Functions
+# ============================================================================
+
+function y() {
+    if [ "$1" != "" ]; then
+        if [ -d "$1" ]; then
+            yazi "$1"
+        else
+            yazi "$(zoxide query $1)"
+        fi
+    else
+        yazi
+    fi
+    return $?
+}
+
+function take() {
+    mkdir -p "$1" && cd "$1"
+}
+
+function fuzzy-cd() {
+    cd "$(find . \
+		-maxdepth 10\
+		-path "*/node_modules" -prune -o \
+		-path "*/.git" -prune -o \
+		-type d -print 2>/dev/null \
+		| fzf --reverse --border)"
+}
+
+function fuzzy-pushd() {
+    pushd "$(find . \
+		-maxdepth 10\
+		-path "*/node_modules" -prune -o \
+		-path "*/.git" -prune -o \
+		-type d -print 2>/dev/null \
+		| fzf --reverse --border)"
+}
+
+function fuzzy-yazi() {
+    selection=$(find . \
+            -maxdepth 10\
+            -path "*/node_modules" -prune -o \
+            -path "*/.*" -prune -o \
+            -type d -print 2>/dev/null \
+        | fzf --reverse --border)
+    if [[ -n "$selection" ]]; then
+        cd "$selection" && yazi
+    fi
+}
+
+# ============================================================================
+# Custom Widgets
+# ============================================================================
+
+function project-sessionizer-widget() {
+    zle push-line
+    BUFFER="project-sessionizer"
+    zle accept-line
+}
+
+function custom-ctrl-f-widget() {
+    if [[ -z $BUFFER ]]; then
+        fuzzy-pushd
+        zle reset-prompt
+    else
+        zle forward-char
+    fi
+}
+
+function custom-ctrl-e-widget() {
+    if [[ -z $BUFFER ]]; then
+        fuzzy-yazi
+        zle reset-prompt
+    else
+        zle end-of-line
+    fi
+}
+
+zle -N project-sessionizer-widget
+zle -N custom-ctrl-f-widget
+zle -N custom-ctrl-e-widget
+
+# ============================================================================
+# Aliases
+# ============================================================================
+
+alias dotfiles='git --git-dir=$HOME/.dotfiles --work-tree=$HOME \
+	-c status.showUntrackedFiles=no \
+	-c core.excludesFile=$HOME/.dotfilesignore'
+
+alias  ls='eza --color=always'
+alias   l='eza --color=always -1'  # One per line
+alias  ll='eza --color=always -lh --icons'   # Long format
+alias  la='eza --color=always -lha --icons'  # All files + hidden
+alias llg='eza --color=always -lh --icons --grid'   # Long format grid
+alias lag='eza --color=always -lha --icons --grid'  # All files grid
+alias  lt='eza --color=always -lh --icons --tree --level=2'  # Tree view (2 levels)
+alias  lz='eza --color=always -lh --icons --sort=size --reverse'      # Sort by size
+alias  lr='eza --color=always -lh --icons --sort=modified --reverse'  # Sort by time
+alias  lg='eza --color=always -lh --icons --git --git-ignore'  # Git-aware view
+
+alias editconfig="tmux-sessionizer $HOME/.config"
+
+alias fcd='fuzzy-cd'
+alias fpushd='fuzzy-pushd'
+alias fyazi='fuzzy-yazi'
+
+# ============================================================================
+# Keybindings
+# ============================================================================
+
+# Basic keybindings
+bindkey -e
+bindkey "^[[3~" delete-char
+bindkey "^[[1~" beginning-of-line
+bindkey "^[[4~" end-of-line
+
+# Plugin-specific keybindings
+bindkey '^y' autosuggest-accept
+bindkey '^ ' autosuggest-toggle
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^P' history-substring-search-up
+bindkey '^N' history-substring-search-down
+
+# Custom widget-specific keybindings
+bindkey "^[o" project-sessionizer-widget
+bindkey "^f" custom-ctrl-f-widget
+bindkey "^e" custom-ctrl-e-widget

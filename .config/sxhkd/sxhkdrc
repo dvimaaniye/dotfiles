@@ -1,0 +1,74 @@
+#super + {_,shift +} {1-9}
+#    i3-msg {workspace,move container to workspace} {1-9}
+
+#super + {_,shift + } {h,j,k,l}
+#	i3-msg {focus,move} {left,down,up,right}
+
+#super + q
+#	i3-msg kill
+
+#super + Return
+#	kitty
+
+#super + shift + {c,r}
+#	i3-msg {reload,restart}
+
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	brightnessctl set {+2%,1%-}
+
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	wpctl set-volume -l 1.2 @DEFAULT_SINK@ {0.02+,0.02-}
+
+{XF86AudioMute,XF86AudioMicMute}
+	wpctl set-mute @DEFAULT_SINK@ toggle 
+
+XF86AudioNext
+	playerctl next
+
+XF86AudioPrev
+	playerctl previous
+
+XF86AudioPlay
+	playerctl play
+
+XF86AudioPause
+	playerctl pause
+
+Print
+	flameshot gui --last-region
+
+super + c
+	xcolor -s
+
+super + space
+	rofi -show drun
+
+super + bar
+	i3-msg split toggle
+
+super + f
+	i3-msg fullscreen toggle
+
+super + {s,w,e}
+	i3-msg layout {stacking,tabbed,toggle split}
+
+super + shift + comma
+	i3-msg floating toggle
+
+super + comma
+	i3-msg focus mode_toggle
+
+super + a
+	i3-msg focus parent
+
+F9
+	dunstify -t 2000 -i noicon "$(playerctl metadata title)" "$(playerctl metadata -f "\{\{duration(position)\}\}/\{\{duration(mpris:length)\}\}")"
+
+F10
+	playerctl previous
+
+F12
+	playerctl next
+
+F11
+	playerctl play-pause

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+switch_to() {
+    if [[ -z $TMUX ]]; then
+        tmux attach-session -t $1
+    else
+        tmux switch-client -t $1
+    fi
+}
+
+dir="$1"
+if [[ -z "$dir" ]]; then
+    echo "Provide a directory to create a session."
+    exit 1
+fi
+if [[ ! -d "$dir" ]]; then
+    echo "$dir not a directory. Can't create session."
+    exit 2
+fi
+
+project_name=$(basename "$dir" | tr . _)
+if [[ -z $project_name ]]; then
+    echo "No valid characters in project name"
+    exit 3
+fi
+
+if ! tmux has-session -t=$project_name 2>/dev/null; then
+    tmux new-session -ds $project_name -c "$dir" \; new-window -c "$dir" -t $project_name \; select-window -t $project_name:1 \; send-keys "nvim" Enter
+fi
+
+switch_to $project_name

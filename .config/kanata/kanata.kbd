@@ -1,0 +1,33 @@
+(defcfg process-unmapped-keys yes)
+
+(defsrc)
+
+(defalias
+  arr (layer-while-held arrows)
+)
+
+(deflayermap (base)
+  a (tap-hold 200 200 a lmet)
+  ; (tap-hold 200 200 ; rmet)
+
+  f (tap-hold 200 200 f lctl)
+  j (tap-hold 200 200 j rctl)
+
+  d (tap-hold 200 200 d lalt)
+  k (tap-hold 200 200 k ralt)
+
+  s (tap-hold 200 200 s lshift)
+  l (tap-hold 200 200 l rshift)
+
+  caps esc
+  esc caps
+
+  e (tap-hold 200 200 e @arr)
+)
+
+(deflayermap (arrows)
+  h left
+  j down
+  k up
+  l rght 
+)
