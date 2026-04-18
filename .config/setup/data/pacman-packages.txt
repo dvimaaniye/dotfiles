@@ -1,0 +1,16 @@
+bat
+clang
+cmake
+eza
+fd
+fnm
+fzf
+jq
+progress
+ripgrep
+starship
+tldr
+tmux
+tree
+zoxide
+zsh

@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+REPO_URL="https://github.com/ryanoasis/nerd-fonts"
+INSTALLATION_DIR="$HOME/.local/share/fonts"
+# See https://github.com/ryanoasis/nerd-fonts/releases/latest to find all available fonts
+mapfile -t NERD_FONTS < ./data/nerd-fonts.txt
+
+get_latest_version() {
+    font_url=$(curl -s "$REPO_URL/releases/latest" -w "%{redirect_url}")
+    version=$(basename "$font_url" | sed 's/^v//')
+    echo "$version"
+}
+
+
+verify_installation() {
+    for font in "${NERD_FONTS[@]}"; do
+        if ! fc-list | grep -q "$font"; then
+            echo "Font $font not found in font cache. Installation may have failed."
+        fi
+    done
+}
+
+main() {
+    mkdir -p "$INSTALLATION_DIR"
+
+    cd "$INSTALLATION_DIR" || exit
+
+    base_url="$REPO_URL/releases/download/v$(get_latest_version)"
+
+    for font in "${NERD_FONTS[@]}"; do
+        echo "Installing $font..."
+
+        font_archive="$font.tar.xz"
+        font_url="$base_url/$font_archive"
+        font_destination="$INSTALLATION_DIR/$font"
+
+        mkdir -p "$font_destination"
+
+        if curl -OLs "$font_url" && \
+            tar -xf "$font_archive" -C "$font_destination" 2> /dev/null && \
+            rm "$font_archive";
+        then
+            echo "Installed $font."
+        else
+            rm "$font_archive"
+            rm -r "$font_destination"
+            echo "Installation failed for $font."
+        fi
+    done
+
+    echo "Refreshing fc-cache..."
+    fc-cache -f "$INSTALLATION_DIR"
+    echo "Refreshed fc-cache"
+
+    verify_installation
+}
+
+(main)

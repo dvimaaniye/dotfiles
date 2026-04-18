@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+. ./lib
+
+for file in ./*; do
+    if [[ "$file" =~ ./[0-9][0-9].* ]]; then
+        echo "Sourcing $file..."
+        . "$file"
+    fi
+done
