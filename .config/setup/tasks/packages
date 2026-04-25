@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib/env"
+
+declare -A run_pacman
+declare -A run_yay
+pacman_categories=()
+yay_categories=()
+
+# Auto-detect categories using globs (per style guide)
+for f in "$SETUP_PATH/data/pacman/"*.txt; do
+    [[ -e $f ]] || continue
+    cat=${f##*/}
+    pacman_categories+=("${cat%.txt}")
+done
+
+for f in "$SETUP_PATH/data/yay/"*.txt; do
+    [[ -e $f ]] || continue
+    cat=${f##*/}
+    yay_categories+=("${cat%.txt}")
+done
+
+for cat in "${pacman_categories[@]}"; do run_pacman[$cat]=true; done
+for cat in "${yay_categories[@]}"; do run_yay[$cat]=true; done
+
+if (( $# > 0 )); then
+    for cat in "${pacman_categories[@]}"; do run_pacman[$cat]=false; done
+    for cat in "${yay_categories[@]}"; do run_yay[$cat]=false; done
+
+    while (( $# > 0 )); do
+        case "$1" in
+            --pacman-*)
+                cat="${1#--pacman-}"
+                run_pacman[$cat]=true
+                ;;
+            --yay-*)
+                cat="${1#--yay-}"
+                run_yay[$cat]=true
+                ;;
+            *)
+                log_error "Unknown package category: $1"
+                exit 1
+                ;;
+        esac
+        shift
+    done
+fi
+
+for cat in "${pacman_categories[@]}"; do
+    if [[ ${run_pacman[$cat]} == true ]]; then
+        log_step "Installing pacman $cat packages..."
+        install_pacman_list "$SETUP_PATH/data/pacman/$cat.txt" "$cat" || exit 1
+    fi
+done
+
+for cat in "${yay_categories[@]}"; do
+    if [[ ${run_yay[$cat]} == true ]]; then
+        log_step "Installing AUR $cat packages..."
+        install_yay_list "$SETUP_PATH/data/yay/$cat.txt" "AUR $cat" || exit 1
+    fi
+done

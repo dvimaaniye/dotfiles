@@ -1,0 +1,6 @@
+pipewire
+pipewire-alsa
+pipewire-pulse
+wireplumber
+playerctl
+pavucontrol

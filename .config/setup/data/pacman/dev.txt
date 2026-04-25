@@ -1,0 +1,6 @@
+base-devel
+git
+clang
+cmake
+
+mise

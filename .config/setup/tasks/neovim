@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib/env"
+
+log_step 'Setting up Neovim...'
+
+if ! has_cmd nvim; then
+	log_error 'nvim not found, skipping plugin install'
+	exit 1
+fi
+
+if (( FORCE == 1 )) || [[ ! -d $HOME/.local/share/nvim/lazy/lazy.nvim ]]; then
+	log_info 'Installing Neovim plugins headlessly...'
+	nvim --headless '+Lazy! sync' +qa || exit 1
+else
+	log_skip 'neovim plugins'
+fi

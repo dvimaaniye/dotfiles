@@ -1,0 +1,9 @@
+i3-wm
+i3status
+rofi
+feh
+xcolor
+xclip
+xdotool
+xorg-xrandr
+xorg-xinput

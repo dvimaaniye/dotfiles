@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-
-read_list() {
-    dir="$1"
-    grep -vE '^\s*(#|$)' "$dir"
-}

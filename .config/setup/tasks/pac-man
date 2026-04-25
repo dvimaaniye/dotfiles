@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib/env"
+
+log_step 'Setting up package manager...'
+
+log_info 'Updating system packages...'
+sudo pacman -Syu --noconfirm || exit 1
+
+if ! has_cmd yay; then
+	log_info 'Installing yay...'
+	git_clone_or_update 'https://aur.archlinux.org/yay-bin.git' '/tmp/yay-bin' || exit 1
+	(cd /tmp/yay-bin && makepkg -si --noconfirm) || exit 1
+else
+	log_skip 'yay already installed'
+fi
+
+log_ok 'Package manager ready'

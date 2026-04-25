@@ -1,9 +1,6 @@
 bat
-clang
-cmake
 eza
 fd
-fnm
 fzf
 jq
 progress
@@ -12,5 +9,6 @@ starship
 tldr
 tmux
 tree
+unzip
 zoxide
 zsh

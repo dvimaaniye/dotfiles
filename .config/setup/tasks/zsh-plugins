@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib/env"
+
+log_step 'Setting up Zsh...'
+
+plugins_file="$SETUP_PATH/data/zsh-plugins.txt"
+plugins_dir="$HOME/.zsh/plugins"
+failed=()
+
+if [[ ! -f "$plugins_file" ]]; then
+	log_error "Plugin list not found: $plugins_file"
+	exit 1
+fi
+
+ensure_dir "$plugins_dir"
+
+while IFS= read -r url; do
+	git_clone_or_update "$url" "$plugins_dir/${url##*/}" || failed+=("$url")
+done < <(read_list "$plugins_file")
+
+if (( ${#failed[@]} > 0 )); then
+	log_error "Failed to install some plugins: ${failed[*]}"
+	exit 1
+fi
+
+if ! grep -q "$SETUP_PATH/lib/utils" "$HOME/.zshrc" 2>/dev/null; then
+	log_info 'Adding setup source to .zshrc'
+	cat >> "$HOME/.zshrc" <<-EOF
+
+if [[ -f "$SETUP_PATH/lib/utils" ]]; then
+	. "$SETUP_PATH/lib/log"
+	. "$SETUP_PATH/lib/utils"
+fi
+EOF
+else
+	log_skip 'setup source in .zshrc'
+fi

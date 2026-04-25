@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib/log"
+. "$SETUP_PATH/lib/utils"

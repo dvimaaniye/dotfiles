@@ -1,0 +1,5 @@
+upower
+networkmanager
+bluez
+bluez-utils
+brightnessctl

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib/env"
+
+log_step 'Setting up Tmux...'
+
+tpm_dir="$HOME/.tmux/plugins/tpm"
+
+git_clone_or_update 'https://github.com/tmux-plugins/tpm' "$tpm_dir" || exit 1
+
+if (( FORCE == 1 )); then
+	"$tpm_dir/bin/clean_plugins" || exit 1
+fi
+
+log_info 'Installing tmux plugins via TPM...'
+"$tpm_dir/bin/install_plugins" || exit 1

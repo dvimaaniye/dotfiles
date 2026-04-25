@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+dotfiles_repo='git@github.com:dvimaaniye/dotfiles.git'
+dotfiles_dir="$HOME/.dotfiles"
+
+blue='\033[0;34m'
+bold='\033[1m'
+nc='\033[0m'
+
+echo -e "${blue}${bold}==> Bootstrapping dotfiles...${nc}"
+
+if ! command -v git &>/dev/null; then
+    echo 'Git not found. Installing...'
+    sudo pacman -S --needed --noconfirm git || exit 1
+fi
+
+if [[ ! -d "$dotfiles_dir" ]]; then
+    echo 'Cloning bare repository...'
+    git clone --bare "$dotfiles_repo" "$dotfiles_dir" || exit 1
+fi
+
+dotfiles() {
+    git --git-dir="$dotfiles_dir" --work-tree="$HOME" "$@"
+}
+
+echo 'Checking out dotfiles...'
+if ! dotfiles checkout; then
+    echo 'Existing files detected. Backing up...'
+    mkdir -p "$HOME/.dotfiles-backup"
+    while read -r line || [[ -n $line ]]; do
+        [[ $line != [[:space:]]* ]] && continue
+        read -r file <<< "$line"
+        [[ -z $file ]] && continue
+        echo "Backing up $file"
+        mkdir -p "$(dirname "$HOME/.dotfiles-backup/$file")"
+        mv "$HOME/$file" "$HOME/.dotfiles-backup/$file"
+    done < <(dotfiles checkout 2>&1)
+    dotfiles checkout
+fi
+
+dotfiles config --local status.showUntrackedFiles no
+
+if [[ -f "$HOME/.config/setup/install" ]]; then
+    chmod +x "$HOME/.config/setup/install"
+    "$HOME/.config/setup/install" "$@"
+else
+    echo "Error: install script not found at $HOME/.config/setup/install"
+    exit 1
+fi

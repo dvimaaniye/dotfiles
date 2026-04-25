@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+
+read_list() {
+	local file="$1"
+	local line
+	[[ -f "$file" ]] || return 1
+	while read -r line || [[ -n $line ]]; do
+		[[ $line =~ ^[[:space:]]*(#|$) ]] && continue
+		echo "$line"
+	done < "$file"
+}
+
+has_cmd() {
+	command -v "$1" &>/dev/null
+}
+
+git_clone_or_update() {
+	local url="$1"
+	local dest="$2"
+
+	if [[ -d "$dest/.git" ]]; then
+		if (( ${FORCE:-0} == 1 )); then
+			log_info "Force-updating ${dest##*/}..."
+			git -C "$dest" pull --quiet --ff-only || \
+				log_warn "Could not fast-forward ${dest##*/}"
+		else
+			log_skip "git clone $url -> $dest"
+		fi
+	elif [[ -d "$dest" ]]; then
+		log_warn "$dest exists but is not a git repo - skipping"
+	else
+		log_info "Cloning $url..."
+		git clone --quiet --depth=1 "$url" "$dest" || {
+			log_error "Failed to clone $url"
+			return 1
+		}
+		log_ok "Cloned ${dest##*/}"
+	fi
+}
+
+ensure_dir() {
+	local dir="$1"
+	if [[ ! -d "$dir" ]]; then
+		mkdir -p "$dir"
+		log_ok "Created $dir"
+	fi
+}
+
+systemd_user_enable() {
+	local unit="$1"
+	if (( ${FORCE:-0} == 1 )) || \
+		! systemctl --user is-enabled --quiet "$unit" 2>/dev/null; then
+		systemctl --user enable --now "$unit" && \
+			log_ok "Enabled systemd user unit: $unit"
+	else
+		log_skip "systemd user unit $unit already enabled"
+	fi
+}
+
+install_pacman_list() {
+	local file="$1"
+	local desc="$2"
+	local pkgs=()
+
+	mapfile -t pkgs < <(read_list "$file")
+	if (( ${#pkgs[@]} == 0 )); then
+		log_skip "No $desc packages to install"
+		return 0
+	fi
+
+	if (( FORCE == 1 )) || ! pacman -Qi "${pkgs[@]}" &>/dev/null; then
+		log_info "Installing ${#pkgs[@]} $desc packages..."
+		sudo pacman -S --needed --noconfirm "${pkgs[@]}" || return 1
+	else
+		log_skip "$desc packages"
+	fi
+}
+
+install_yay_list() {
+	local file="$1"
+	local desc="$2"
+	local pkgs=()
+
+	mapfile -t pkgs < <(read_list "$file")
+	if (( ${#pkgs[@]} == 0 )); then
+		log_skip "No $desc packages to install"
+		return 0
+	fi
+
+	if (( FORCE == 1 )) || ! pacman -Qi "${pkgs[@]}" &>/dev/null; then
+		log_info "Installing ${#pkgs[@]} $desc packages..."
+		yay -S --needed --noconfirm "${pkgs[@]}" || return 1
+	else
+		log_skip "$desc packages"
+	fi
+}

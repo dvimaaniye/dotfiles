@@ -1,0 +1,11 @@
+https://github.com/lukechilds/zsh-nvm
+https://github.com/zsh-users/zsh-autosuggestions
+https://github.com/zsh-users/zsh-history-substring-search
+https://github.com/zdharma-continuum/fast-syntax-highlighting
+https://github.com/zsh-users/zsh-completions
+https://github.com/Aloxaf/fzf-tab
+https://github.com/toku-sa-n/zsh-dot-up
+https://github.com/torifat/npms
+https://github.com/lukechilds/zsh-better-npm-completion
+https://github.com/fdellwing/zsh-bat
+https://github.com/zpm-zsh/colorize
