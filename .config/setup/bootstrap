@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-dotfiles_repo='git@github.com:dvimaaniye/dotfiles.git'
+dotfiles_repo='https://github.com/dvimaaniye/dotfiles.git'
 dotfiles_dir="$HOME/.dotfiles"
 
 blue='\033[0;34m'
