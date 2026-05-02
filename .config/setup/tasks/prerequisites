@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Installing prerequisites..."
+sudo pacman -S --noconfirm --needed base-devel git curl tar || {
+    log_error "Failed to install prerequisites"
+    exit 1
+}

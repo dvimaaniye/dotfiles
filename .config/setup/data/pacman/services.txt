@@ -1,4 +1,0 @@
-sxhkd
-picom
-polybar
-dunst

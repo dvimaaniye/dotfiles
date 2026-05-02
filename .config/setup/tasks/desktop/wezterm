@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Installing wezterm..."
+sudo pacman -S --noconfirm --needed wezterm || { log_error 'wezterm installation failed'; return 1; }

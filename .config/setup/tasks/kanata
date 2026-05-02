@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step 'Installing kanata...'
+yay -S --noconfirm --needed kanata-bin || {
+    log_error "kanata installation failed"
+    return 1
+}
+
+service_file="$HOME/.config/systemd/user/kanata.service"
+if [[ ! -f "$service_file" ]] || (( FORCE == 1 )); then
+    log_info 'Creating kanata.service'
+    ensure_dir "${service_file%/*}"
+    cat > "$service_file" <<-EOF
+[Unit]
+Description=Kanata keyboard remapper
+Documentation=https://github.com/jtroo/kanata
+
+[Service]
+Type=simple
+ExecStart=$(command -v kanata)
+Restart=always
+
+[Install]
+WantedBy=default.target
+EOF
+fi
+
+systemd_user_enable 'kanata.service'

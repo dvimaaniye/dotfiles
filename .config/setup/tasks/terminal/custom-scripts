@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step 'Installing custom scripts...'
+
+scripts=(
+    'gh-repo-indexer'
+    'project-sessionizer'
+    'tmux-sessionizer'
+)
+
+ensure_dir "$HOME/.local/bin"
+
+for script in "${scripts[@]}"; do
+    src="$HOME/.config/$script"
+    dest="$HOME/.local/bin/$script"
+
+    if [[ -f "$src" ]]; then
+        if [[ ! -L "$dest" ]]; then
+            ln -sf "$src" "$dest"
+            chmod +x "$src"
+            log_ok "Installed $script"
+        else
+            log_skip "$script already installed"
+        fi
+    else
+        log_warn "Source script not found: $src"
+    fi
+done

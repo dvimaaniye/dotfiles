@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Installing mise..."
+sudo pacman -S --noconfirm --needed mise || {
+    log_error "mise installation failed"
+    return 1
+}
+
+log_step "Setting up languages using mise..."
+mise use --global {node,go,python,rust}@latest

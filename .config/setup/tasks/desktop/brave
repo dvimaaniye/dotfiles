@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Installing brave..."
+yay -S --noconfirm --needed brave-bin || {
+    log_error "Brave installation failed"
+    return 1
+}

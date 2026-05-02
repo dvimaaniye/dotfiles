@@ -1,0 +1,113 @@
+#!/usr/bin/env bash
+
+green='\033[0;32m'
+yellow='\033[1;33m'
+red='\033[0;31m'
+cyan='\033[0;36m'
+bold='\033[1m'
+nc='\033[0m'
+
+log_info() {
+    printf "${green}[INFO]${nc}  %s\n" "$1"
+}
+
+log_warn() {
+    printf "${yellow}[WARN]${nc}  %s\n" "$1"
+}
+
+log_error() {
+    printf "${red}[ERROR]${nc} %s\n" "$1"
+}
+
+log_step() {
+    printf "\n${bold}${cyan}==> %s${nc}\n" "$1"
+}
+
+log_ok() {
+    printf "${green}  ✓${nc} %s\n" "$1"
+}
+
+log_skip() {
+    printf "${yellow}  ~${nc} %s (already done)\n" "$1"
+}
+
+read_list() {
+    local file="$1"
+    local line
+    [[ -f "$file" ]] || return 1
+    while read -r line || [[ -n $line ]]; do
+        [[ $line =~ ^[[:space:]]*(#|$) ]] && continue
+        echo "$line"
+    done < "$file"
+}
+
+has_cmd() {
+    command -v "$1" &>/dev/null
+}
+
+git_clone_or_update() {
+    local url="$1"
+    local dest="$2"
+
+    if [[ -d "$dest/.git" ]]; then
+        if (( ${FORCE:-0} == 1 )); then
+            log_info "Force-updating ${dest##*/}..."
+            git -C "$dest" pull --quiet --ff-only || \
+                log_warn "Could not fast-forward ${dest##*/}"
+        else
+            log_skip "git clone $url -> $dest"
+        fi
+    elif [[ -d "$dest" ]]; then
+        log_warn "$dest exists but is not a git repo - skipping"
+    else
+        log_info "Cloning $url..."
+        git clone --quiet --depth=1 "$url" "$dest" || {
+            log_error "Failed to clone $url"
+            return 1
+        }
+        log_ok "Cloned ${dest##*/}"
+    fi
+}
+
+ensure_dir() {
+    local dir="$1"
+    if [[ ! -d "$dir" ]]; then
+        mkdir -p "$dir"
+        log_ok "Created $dir"
+    fi
+}
+
+systemd_user_enable() {
+    local unit="$1"
+    if (( ${FORCE:-0} == 1 )) || \
+        ! systemctl --user is-enabled --quiet "$unit" 2>/dev/null; then
+        systemctl --user enable --now "$unit" && \
+            log_ok "Enabled systemd user unit: $unit"
+    else
+        log_skip "systemd user unit $unit already enabled"
+    fi
+}
+
+systemd_enable() {
+    local unit="$1"
+    if (( ${FORCE:-0} == 1 )) || \
+        ! systemctl is-enabled --quiet "$unit" 2>/dev/null; then
+        sudo systemctl enable --now "$unit" && \
+            log_ok "Enabled systemd unit: $unit"
+    else
+        log_skip "systemd unit $unit already enabled"
+    fi
+}
+
+systemd_disable() {
+    local unit="$1"
+    if (( ${FORCE:-0} == 1 )) || \
+        systemctl is-enabled --quiet "$unit" 2>/dev/null; then
+        sudo systemctl disable "$unit" && \
+            log_ok "Disabled systemd unit: $unit"
+    else
+        log_skip "systemd unit $unit already disabled"
+    fi
+}
+
+

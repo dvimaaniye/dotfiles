@@ -1,84 +1,41 @@
 #!/usr/bin/env bash
 
-# Path to the setup directory
 SETUP_PATH="$HOME/.config/setup"
 export SETUP_PATH
 
-show_help() {
-	cat <<EOF
-Usage: install [OPTIONS] [-- TASK_ARGS]
+FORCE=0
 
-Options:
-  -f, --force      Force re-installation/update
-  --task TASK      Run specific task from tasks/
-  -h, --help       Show this help menu
+while (( $# > 0 )); do
+    case "$1" in
+        -f|--force)
+            FORCE=1
+            shift
+            ;;
+        *)
+            echo "Unknown argument: $1"
+            exit 1
+            ;;
+    esac
+done
+export FORCE
 
-Granular Package Control (pass after --):
-  --pacman-CAT     Install specific pacman category
-  --yay-CAT        Install specific AUR category
-
-Examples:
-  ./install --task fonts
-  ./install --task packages -- --pacman-system
-EOF
-}
-
-. "$SETUP_PATH/lib/env"
-
-if [[ ! -f /etc/arch-release ]] && ! grep -qiE '^(ID|ID_LIKE)=.*arch' /etc/os-release; then
-	log_error 'This setup script only supports Arch-based distributions'
+if [[ ! -f /etc/os-release ]]; then
+	echo "Error: /etc/os-release not found."
 	exit 1
 fi
 
-FORCE=0
-tasks=()
-extra_args=()
-
-while (( $# > 0 )); do
-	case "$1" in
-		-h|--help)
-			show_help
-			exit 0
-			;;
-		-f|--force)
-			FORCE=1
-			shift
-			;;
-		--task)
-			if [[ -n $2 ]]; then
-				tasks+=("$2")
-				shift 2
-			else
-				log_error "--task requires an argument"
-				exit 1
-			fi
-			;;
-		--)
-			shift
-			extra_args+=("$@")
-			break
-			;;
-		*)
-			log_error "Unknown argument: $1"
-			show_help
-			exit 1
-			;;
-	esac
-done
-
-export FORCE
-
-if (( ${#tasks[@]} == 0 )); then
-	bash "$SETUP_PATH/tasks/all" "${extra_args[@]}"
-else
-	for task in "${tasks[@]}"; do
-		script="$SETUP_PATH/tasks/$task"
-		[[ ! -f $script ]] && script="$SETUP_PATH/tasks/$task/all"
-		if [[ -f $script ]]; then
-			bash "$script" "${extra_args[@]}" || exit 1
-		else
-			log_error "Task not found: $task"
-			exit 1
-		fi
-	done
+if ! grep -qEi '^ID(_LIKE)?=.*arch' /etc/os-release; then
+	echo "Error: Arch Linux not detected."
+	exit 1
 fi
+
+. "$SETUP_PATH/tasks/update-system-packages"
+. "$SETUP_PATH/tasks/prerequisites"
+. "$SETUP_PATH/tasks/yay"
+. "$SETUP_PATH/tasks/packages"
+. "$SETUP_PATH/tasks/nerd-fonts"
+. "$SETUP_PATH/tasks/kanata"
+
+. "$SETUP_PATH/tasks/terminal-installer"
+. "$SETUP_PATH/tasks/desktop-installer"
+

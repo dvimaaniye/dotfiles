@@ -1,5 +1,8 @@
+xorg-server
+xorg-xinit
 i3-wm
 i3status
+i3lock
 rofi
 feh
 xcolor
@@ -7,3 +10,5 @@ xclip
 xdotool
 xorg-xrandr
 xorg-xinput
+ibus
+gvfs

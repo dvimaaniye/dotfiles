@@ -47,7 +47,7 @@ HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
-eval "$(fnm env)"
+eval "$(mise activate zsh)"
 
 # ============================================================================
 # Functions

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Installing sxhkd..."
+sudo pacman -S --noconfirm --needed sxhkd || { log_error 'sxhkd installation failed'; return 1; }

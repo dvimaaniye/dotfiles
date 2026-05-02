@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/tasks/terminal/mise-and-languages"
+. "$SETUP_PATH/tasks/terminal/neovim"
+. "$SETUP_PATH/tasks/terminal/tmux"
+. "$SETUP_PATH/tasks/terminal/setup-zsh"
+. "$SETUP_PATH/tasks/terminal/custom-scripts"

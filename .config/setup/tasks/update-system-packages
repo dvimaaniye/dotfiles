@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_info 'Updating system packages...'
+sudo pacman -Syu --noconfirm || { log_error "System update failed"; return 1; }

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Installing dunst notification daemon..."
+
+sudo pacman -S --noconfirm --needed dunst || { log_error 'dunst installation failed'; return 1; }

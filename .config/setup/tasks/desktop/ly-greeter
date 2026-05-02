@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Installing ly greeter..."
+
+sudo pacman -S --noconfirm --needed ly xorg-xauth || { log_error 'ly greeter installation failed'; return 1; }
+
+systemd_enable 'ly@tty1.service'
+systemd_disable 'getty@tty1.service'

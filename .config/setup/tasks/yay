@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step 'Installing yay...'
+
+git_clone_or_update 'https://aur.archlinux.org/yay-bin.git' '/tmp/yay-bin' || {
+    log_error "Downloading yay failed"
+    exit 1
+}
+
+(cd /tmp/yay-bin && makepkg -si --noconfirm) || { log_error "Installing yay failed"; return 1; }

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/tasks/desktop/ly-greeter"
+. "$SETUP_PATH/tasks/desktop/dunst-notif-daemon"
+. "$SETUP_PATH/tasks/desktop/sxhkd"
+. "$SETUP_PATH/tasks/desktop/brave"
+. "$SETUP_PATH/tasks/desktop/wezterm"

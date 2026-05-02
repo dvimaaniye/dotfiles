@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step 'Installing neovim...'
+sudo pacman -S --noconfirm --needed neovim || { log_error 'neovim installation failed'; return 1; }
+
+log_step 'Installing neovim plugins...'
+nvim --headless '+Lazy! sync' +qa || log_warn 'neovim sync failed'

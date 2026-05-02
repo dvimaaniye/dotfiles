@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step 'Installing tmux...'
+sudo pacman -S --noconfirm --needed tmux || { log_error "tmux installation failed"; return 1; }

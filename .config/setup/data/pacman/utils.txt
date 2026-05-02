@@ -7,8 +7,7 @@ progress
 ripgrep
 starship
 tldr
-tmux
 tree
 unzip
+yazi
 zoxide
-zsh
