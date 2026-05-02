@@ -81,8 +81,19 @@ systemd_user_enable() {
     local unit="$1"
     if (( ${FORCE:-0} == 1 )) || \
         ! systemctl --user is-enabled --quiet "$unit" 2>/dev/null; then
-        systemctl --user enable --now "$unit" && \
+        systemctl --user enable "$unit" && \
             log_ok "Enabled systemd user unit: $unit"
+    else
+        log_skip "systemd user unit $unit already enabled"
+    fi
+}
+
+systemd_user_enable_now() {
+    local unit="$1"
+    if (( ${FORCE:-0} == 1 )) || \
+        ! systemctl --user is-enabled --quiet "$unit" 2>/dev/null; then
+        systemctl --user enable --now "$unit" && \
+            log_ok "Enabled and started systemd user unit: $unit"
     else
         log_skip "systemd user unit $unit already enabled"
     fi
@@ -92,8 +103,19 @@ systemd_enable() {
     local unit="$1"
     if (( ${FORCE:-0} == 1 )) || \
         ! systemctl is-enabled --quiet "$unit" 2>/dev/null; then
-        sudo systemctl enable --now "$unit" && \
+        sudo systemctl enable "$unit" && \
             log_ok "Enabled systemd unit: $unit"
+    else
+        log_skip "systemd unit $unit already enabled"
+    fi
+}
+
+systemd_enable_now() {
+    local unit="$1"
+    if (( ${FORCE:-0} == 1 )) || \
+        ! systemctl is-enabled --quiet "$unit" 2>/dev/null; then
+        sudo systemctl enable --now "$unit" && \
+            log_ok "Enabled and started systemd unit: $unit"
     else
         log_skip "systemd unit $unit already enabled"
     fi
