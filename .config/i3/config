@@ -154,8 +154,8 @@ for_window [class="Xfburn"] floating enable
 
 for_window [window_role="page-info"] floating enable
 
-for_window [class="(?i)Zen" title="(?i)Zen Browser Private Browsing$"] move container to workspace $ws4
-for_window [class="(?i)Zen" title="(?i)Zen Browser$"] move container to workspace $ws5
+for_window [class="(?i)Brave" title="(?i)Brave Browser Private Browsing$"] move container to workspace $ws4
+for_window [class="(?i)Brave" title="(?i)Brave Browser$"] move container to workspace $ws5
 
 for_window [class="(?i)scratchpad"] move scratchpad
 
@@ -189,7 +189,7 @@ exec_always --no-startup-id $HOME/.config/polybar/launch &
 
 exec_always --no-startup-id i3-msg "exec $terminal start --class scratchpad"
 
-exec --no-startup-id i3-msg "exec zen-browser --private-window; exec zen-browser;"
+exec --no-startup-id i3-msg "exec brave --private; exec brave;"
 
 
 # exec --no-startup-id dunst
