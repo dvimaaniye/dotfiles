@@ -37,14 +37,13 @@ source "$HOME/.zsh/plugins/npms/npms.plugin.zsh"
 
 source "$HOME/.zsh/plugins/zsh-bat/zsh-bat.plugin.zsh"
 
-source "$HOME/.fzf.zsh"
-
 source "$HOME/.zsh/plugins/fast-syntax-highlighting/fast-syntax-highlighting.plugin.zsh"
 
 source "$HOME/.zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh"
 HISTORY_SUBSTRING_SEARCH_FUZZY=1
 HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
 
+source <(fzf --zsh)
 eval "$(starship init zsh)"
 eval "$(zoxide init zsh)"
 eval "$(mise activate zsh)"
