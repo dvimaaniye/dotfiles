@@ -9,8 +9,7 @@ volume_line=$(wpctl get-volume @DEFAULT_SINK@)
 
 volume_status=$(echo $volume_line | sed 's/Volume: //')
 
-volume=$(echo $volume_status | awk '{print $1}')
-volume=$(echo "$volume*100" | bc)
+volume=$(echo $volume_status | awk '{print $1 * 100}')
 volume=$(printf "%0.f" $volume)
 muted=$(echo $volume_status | awk '{print $2}')
 
