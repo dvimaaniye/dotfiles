@@ -10,7 +10,7 @@ if [[ $wifi_status == "disabled" ]]; then
 fi
 
 # Interface to monitor
-INTERFACE="wlo1"
+INTERFACE=$(iw dev | awk '$1=="Interface"{print $2; exit}')
 
 name=$(nmcli -t -f GENERAL.CONNECTION dev show $INTERFACE | sed -E "s/.*:(.*)/\1/")
 ip=$(nmcli -t -f IP4.ADDRESS dev show $INTERFACE | sed -n "1p" | sed -E "s/.*:(.*)/\1/")
