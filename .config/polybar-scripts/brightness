@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
 
-brightness=$(brightnessctl -P -d intel_backlight get)
-echo "%{F#f96}BL%{F-} $brightness%"
+brightness=$(brightnessctl -m | cut -d, -f4)
+
+echo "%{F#f96}BL%{F-} $brightness"
