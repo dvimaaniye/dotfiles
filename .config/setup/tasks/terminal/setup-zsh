@@ -8,7 +8,7 @@ sudo pacman -S --noconfirm --needed zsh || {
     return 1
 }
 
-sudo chsh -s "$(command -v zsh)" "$USER"
+sudo chsh -s /usr/bin/zsh "$USER"
 
 plugins_file="$SETUP_PATH/data/zsh-plugins.txt"
 plugins_dir="$HOME/.zsh/plugins"
