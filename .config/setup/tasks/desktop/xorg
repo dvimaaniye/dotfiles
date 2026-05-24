@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+. "$SETUP_PATH/lib"
+
+log_step "Setting up xorg.conf.d..."
+
+DEST="/etc/X11/xorg.conf.d"
+sudo mkdir -p "$DEST"
+
+for conf in "$HOME/.config/xorg.conf.d/"*; do
+	conf_name=${conf##*/}
+	sudo ln -sf "$conf" "$DEST/$conf_name"
+	log_info "Symlink created: $DEST/$conf_name -> $conf"
+done
