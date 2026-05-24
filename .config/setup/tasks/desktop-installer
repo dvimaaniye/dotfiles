@@ -6,3 +6,4 @@
 . "$SETUP_PATH/tasks/desktop/sxhkd"
 . "$SETUP_PATH/tasks/desktop/brave"
 . "$SETUP_PATH/tasks/desktop/wezterm"
+. "$SETUP_PATH/tasks/desktop/theme"
