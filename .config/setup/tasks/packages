@@ -2,6 +2,8 @@
 
 . "$SETUP_PATH/lib"
 
+log_step "Packages"
+
 pacman_pkgs=()
 for f in "$SETUP_PATH/data/pacman/"*.txt; do
     [[ -e $f ]] || continue
