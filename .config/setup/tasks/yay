@@ -4,6 +4,11 @@
 
 log_step 'Installing yay...'
 
+if yay -V &>/dev/null; then
+	log_skip 'yay already installed'
+	return 0
+fi
+
 git_clone_or_update 'https://aur.archlinux.org/yay-bin.git' '/tmp/yay-bin' || {
     log_error "Downloading yay failed"
     exit 1
