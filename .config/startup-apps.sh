@@ -6,7 +6,7 @@ function run {
 
 commands=(
     "picom -b --config $HOME/.config/picom/picom.conf"
-    "sxhkd -c $HOME/.config/sxhkd/sxhkdrc"
+    "dex -a"
     "ibus-daemon -rxRd"
 )
 

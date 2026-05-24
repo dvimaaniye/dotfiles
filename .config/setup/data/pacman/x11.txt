@@ -12,3 +12,4 @@ xorg-xrandr
 xorg-xinput
 ibus
 gvfs
+dex

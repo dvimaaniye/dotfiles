@@ -183,8 +183,8 @@ gaps inner 10
 
 bindsym $mod+Ctrl+m exec $terminal -e 'alsamixer'
 
-exec --no-startup-id $HOME/.config/startup-apps.sh &
-exec_always --no-startup-id feh --bg-fill -z $HOME/wallpapers/current/
+exec_always --no-startup-id $HOME/.config/startup-apps.sh
+exec_always --no-startup-id feh --bg-fill -z $HOME/.config/wallpapers/current/
 exec_always --no-startup-id $HOME/.config/polybar/launch &
 
 exec_always --no-startup-id i3-msg "exec $terminal start --class scratchpad"

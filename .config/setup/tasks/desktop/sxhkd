@@ -4,3 +4,5 @@
 
 log_step "Installing sxhkd..."
 sudo pacman -S --noconfirm --needed sxhkd || { log_error 'sxhkd installation failed'; return 1; }
+
+systemd_user_enable_now 'sxhkd.service'
