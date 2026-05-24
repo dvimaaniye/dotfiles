@@ -10,6 +10,7 @@ xclip
 xdotool
 xorg-xrandr
 xorg-xinput
+xorg-xev
 ibus
 gvfs
 dex

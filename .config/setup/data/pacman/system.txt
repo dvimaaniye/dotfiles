@@ -4,3 +4,4 @@ bluez
 bluez-utils
 bluetui
 brightnessctl
+btop
