@@ -2,4 +2,5 @@ upower
 networkmanager
 bluez
 bluez-utils
+bluetui
 brightnessctl
