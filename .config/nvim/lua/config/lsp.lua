@@ -1,6 +1,8 @@
 local M = {}
 
-local servers = {}
+local servers = {
+	bashls = {},
+}
 
 M.setup = function()
 	local default_capabilities = require("cmp_nvim_lsp").default_capabilities()

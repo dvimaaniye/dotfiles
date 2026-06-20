@@ -19,7 +19,7 @@ M.setup = function()
 			-- docs = { auto_open = false },
 		},
 		formatting = {
-			fields = { "kind", "abbr", "menu" },
+			fields = { "icon", "abbr", "menu" },
 			format = function(entry, vim_item)
 				local kind = require("lspkind").cmp_format({
 					mode = "symbol",
@@ -55,10 +55,9 @@ M.setup = function()
 		}),
 		sources = cmp.config.sources({
 			{ name = "nvim_lsp" },
-			{ name = "luasnip" },
-			{ name = "path" },
-		}, {
 			{ name = "buffer" },
+			{ name = "path" },
+			{ name = "luasnip" },
 		}, {
 			name = "lazydev",
 			group_index = 0,
