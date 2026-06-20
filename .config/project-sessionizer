@@ -2,6 +2,8 @@
 
 PROJECTS_DIR="$HOME/projects"
 CLONE_OPTION="Clone from Github"
+CREATE_OPTION="Create a new project"
+DELETE_OPTION="Delete a project"
 
 get_repo_name() {
     echo "$1" | cut -d' ' -f1 | cut -d'/' -f2
@@ -63,11 +65,35 @@ clone_from_github() {
     echo "$dest_dir"
 }
 
+create_new_project() {
+    read -r -p "Project name: " project_name
+    dir="$PROJECTS_DIR/$project_name"
+    mkdir -p "$dir"
+    echo "$dir"
+}
+
+delete_project() {
+    dir=$(
+        find "$PROJECTS_DIR" -mindepth 1 -maxdepth 1 -type d \
+            | fzf --reverse --border --prompt="Select project to delete > "
+    )
+    if [[ -z "$dir" ]]; then
+        return 1
+    fi
+    read -r -p "Delete $(basename "$dir")? [y/N] " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+        rm -rf "$dir"
+        echo "Deleted $dir"
+    fi
+}
+
 main() {
     local_projects=$(find "$PROJECTS_DIR" -mindepth 1 -maxdepth 1 -type d)
 
     fzf_selection=$({
             echo "$CLONE_OPTION"
+            echo "$CREATE_OPTION"
+            echo "$DELETE_OPTION"
             echo "$local_projects"
     } | fzf --reverse --border | xargs)
 
@@ -78,6 +104,15 @@ main() {
     dir="$fzf_selection"
     if [[ "$fzf_selection" == "$CLONE_OPTION" ]]; then
         dir=$(clone_from_github)
+    fi
+
+    if [[ "$fzf_selection" == "$CREATE_OPTION" ]]; then
+        dir=$(create_new_project)
+    fi
+
+    if [[ "$fzf_selection" == "$DELETE_OPTION" ]]; then
+        delete_project
+        return 0
     fi
 
     tmux-sessionizer "$dir"
