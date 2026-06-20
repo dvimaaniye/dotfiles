@@ -3,6 +3,7 @@ eza
 fd
 fzf
 jq
+lazygit
 progress
 ripgrep
 starship
